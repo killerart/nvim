@@ -9,3 +9,5 @@ require('config.keymappings')
 require('config.autocmds')
 
 require('internal.cursorword')
+
+vim.opt.guifont = { 'FiraCode Nerd Font', ':h15' }
