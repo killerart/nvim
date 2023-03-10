@@ -12,3 +12,5 @@ require('config.lsp.setup')
 require('config.lsp.functions')
 
 require('internal.cursorword')
+
+vim.opt.guifont = { 'FiraCode Nerd Font', ':h15' }
