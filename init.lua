@@ -15,3 +15,5 @@ require('lsp.setup')
 require('lsp.functions')
 
 require('snippets.react')
+
+vim.opt.guifont = { 'FiraCode Nerd Font', ':h15' }

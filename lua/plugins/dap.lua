@@ -128,6 +128,7 @@ keymap("n", "<Leader>di", "<CMD>lua require('dap').step_into()<CR>", opts)
 keymap("n", "<Leader>do", "<CMD>lua require('dap').step_out()<CR>", opts)
 keymap("n", "<Leader>dO", "<CMD>lua require('dap').step_over()<CR>", opts)
 keymap("n", "<Leader>dt", "<CMD>lua require('dap').terminate()<CR>", opts)
+-- keymap("n", "<Leader>dl", "<CMD>lua require('dap.ext.vscode').load_launchjs(nil, { node2 = {'javascript', 'typescript'} })<CR>", opts)
 
 -- ╭──────────────────────────────────────────────────────────╮
 -- │ Adapters                                                 │

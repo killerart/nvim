@@ -64,6 +64,7 @@ return {
 	{ "nvim-pack/nvim-spectre" },
 	{
 		"nvim-tree/nvim-tree.lua",
+    lazy = false,
 		keys = {
 			{ "<C-e>", "<cmd>lua require'nvim-tree'.toggle()<CR>", desc = "NvimTree" },
 		},

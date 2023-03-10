@@ -131,3 +131,39 @@ end)
 -- Comment Box
 keymap("n", "<leader>ac", "<cmd>lua require('comment-box').lbox()<CR>", silent)
 keymap("v", "<leader>ac", "<cmd>lua require('comment-box').lbox()<CR>", silent)
+
+keymap("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", silent)
+keymap("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", silent)
+keymap("n", "<leader>w", "<cmd>:w<CR>", silent)
+
+-- ╭──────────────────────────────────────────────────────────╮
+-- │ VSCode like Alt movement                                 │
+-- ╰──────────────────────────────────────────────────────────╯
+-- Alt+h - move a word back
+keymap("n", "˙", 'b', silent)
+keymap("v", "˙", 'b', silent)
+keymap("i", "˙", '<esc>bi', silent)
+keymap("n", "<A-h>", 'b', silent)
+keymap("v", "<A-h", 'b', silent)
+keymap("i", "<A-h>", '<esc>bi', silent)
+
+-- Alt+l - move a word forward
+keymap("n", "¬", 'w', silent)
+keymap("v", "¬", 'w', silent)
+keymap("i", "¬", '<esc>wi', silent)
+keymap("n", "<A-l>", 'w', silent)
+keymap("v", "<A-l>", 'w', silent)
+keymap("i", "<A-l>", '<esc>wi', silent)
+
+-- Alt+j - move a line down
+keymap("n", "∆", '"xdd"xp', silent)
+keymap("n", "<A-j>", '"xdd"xp', silent)
+-- Alt+Shift+j - copy a line down
+keymap("n", "Ô", '"xyy"xp', silent)
+keymap("n", "<A-J>", '"xyy"xp', silent)
+-- Alt+k - move a line up
+keymap("n", "˚", 'k"xdd"xpk', silent)
+keymap("n", "<A-k>", 'k"xdd"xpk', silent)
+-- Alt+Shift+k - copy a line up
+keymap("n", "", '"xyyk"xp', silent)
+keymap("n", "<A-K>", '"xyyk"xp', silent)
