@@ -10,7 +10,6 @@ return {
 			require("config.colorscheme")
 		end,
 	},
-
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -38,13 +37,6 @@ return {
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"RRethy/nvim-treesitter-textsubjects",
-			{
-				"m-demare/hlargs.nvim",
-				disable = true,
-				config = function()
-					require("hlargs").setup({ color = "#F7768E" })
-				end,
-			},
 		},
 	},
 
@@ -65,7 +57,14 @@ return {
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
-    lazy = false,
+		lazy = false,
+		cmd = {
+			"NvimTreeOpen",
+			"NvimTreeClose",
+			"NvimTreeToggle",
+			"NvimTreeFindFile",
+			"NvimTreeFindFileToggle",
+		},
 		keys = {
 			{ "<C-e>", "<cmd>lua require('nvim-tree.api').tree.toggle()<CR>", desc = "NvimTree" },
 		},
@@ -132,7 +131,11 @@ return {
 			"hrsh7th/cmp-calc",
 			"saadparwaiz1/cmp_luasnip",
 			{ "L3MON4D3/LuaSnip", dependencies = "rafamadriz/friendly-snippets" },
-			{ "tzachar/cmp-tabnine", build = "./install.sh" },
+			{
+				cond = EcoVim.plugins.ai.tabnine.enabled,
+				"tzachar/cmp-tabnine",
+				build = "./install.sh",
+			},
 			{
 				"David-Kunz/cmp-npm",
 				config = function()
@@ -141,7 +144,7 @@ return {
 			},
 			{
 				"zbirenbaum/copilot-cmp",
-				disable = not EcoVim.plugins.copilot.enabled,
+				cond = EcoVim.plugins.ai.copilot.enabled,
 				config = function()
 					require("copilot_cmp").setup()
 				end,
@@ -168,11 +171,11 @@ return {
 	},
 	{ "nvim-lua/popup.nvim" },
 	{
-		"ChristianChiarulli/nvim-gps",
-		branch = "text_hl",
+		"SmiteshP/nvim-navic",
 		config = function()
-			require("plugins.gps")
+			require("plugins.navic")
 		end,
+		dependencies = "neovim/nvim-lspconfig",
 	},
 	{ "jose-elias-alvarez/typescript.nvim" },
 	{
@@ -206,16 +209,19 @@ return {
 	},
 
 	-- General
-	{ "AndrewRadev/switch.vim", lazy = false },
-	-- { "AndrewRadev/splitjoin.vim", lazy = false },
+	{ "AndrewRadev/switch.vim",            lazy = false },
 	{
 		"Wansmer/treesj",
 		lazy = true,
 		cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
 		keys = {
-			{ "gJ", "<cmd>TSJToggle<CR>", desc = "Trigger Toggle Split/Join" },
+			{ "gJ", "<cmd>TSJToggle<CR>", desc = "Toggle Split/Join" },
 		},
-		config = true,
+		config = function()
+			require("treesj").setup({
+				use_default_keymaps = false,
+			})
+		end,
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -234,9 +240,9 @@ return {
 			require("plugins.toggleterm")
 		end,
 	},
-	{ "tpope/vim-repeat", lazy = false },
-	{ "tpope/vim-speeddating", lazy = false },
-	{ "dhruvasagar/vim-table-mode", ft = { "markdown" } },
+	{ "tpope/vim-repeat",            lazy = false },
+	{ "tpope/vim-speeddating",       lazy = false },
+	{ "dhruvasagar/vim-table-mode",  ft = { "markdown" } },
 	{
 		"mg979/vim-visual-multi",
 		keys = {
@@ -273,12 +279,12 @@ return {
 		config = function()
 			require("plugins.zen")
 		end,
-		disable = not EcoVim.plugins.zen.enabled,
+		cond = EcoVim.plugins.zen.enabled,
 	},
 	{
 		"folke/twilight.nvim",
 		config = true,
-		disable = not EcoVim.plugins.zen.enabled,
+		cond = EcoVim.plugins.zen.enabled,
 	},
 	{
 		"ggandor/lightspeed.nvim",
@@ -306,6 +312,7 @@ return {
 		"romgrk/barbar.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		event = "BufAdd",
+		version = "^1.0.0",
 		config = function()
 			require("plugins.barbar")
 		end,
@@ -350,13 +357,6 @@ return {
 		ft = { "markdown" },
 	},
 	{
-		"declancm/cinnamon.nvim",
-		disable = true,
-		config = function()
-			require("plugins.cinnamon")
-		end,
-	},
-	{
 		"airblade/vim-rooter",
 		setup = function()
 			vim.g.rooter_patterns = EcoVim.plugins.rooter.patterns
@@ -369,7 +369,7 @@ return {
 			require("plugins.session-manager")
 		end,
 	},
-	{ "kylechui/nvim-surround", lazy = false, config = true },
+	{ "kylechui/nvim-surround",         lazy = false, config = true },
 	{
 		"sunjon/shade.nvim",
 		config = function()
@@ -415,6 +415,14 @@ return {
 			require("plugins.indent")
 		end,
 	},
+	{
+		"folke/noice.nvim",
+		cond = EcoVim.plugins.experimental_noice.enabled,
+		lazy = false,
+		config = function()
+			require("plugins.noice")
+		end,
+	},
 
 	-- Snippets & Language & Syntax
 	{
@@ -430,14 +438,30 @@ return {
 			require("plugins.colorizer")
 		end,
 	},
+
+	-- AI
 	{
-		"zbirenbaum/copilot.lua",
-		disable = not EcoVim.plugins.copilot.enabled,
+		"jcdickinson/codeium.nvim",
+		cond = EcoVim.plugins.ai.codeium.enabled,
 		event = "InsertEnter",
+		cmd = "Codeium",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+		},
 		config = true,
 	},
 	{
+		"zbirenbaum/copilot.lua",
+		cond = EcoVim.plugins.ai.copilot.enabled,
+		event = "InsertEnter",
+		config = function()
+			require("plugins.copilot")
+		end,
+	},
+	{
 		"jackMort/ChatGPT.nvim",
+		cond = EcoVim.plugins.ai.chatgpt.enabled,
 		config = function()
 			require("plugins.chat-gpt")
 		end,
@@ -458,7 +482,8 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
-		lazy = false,
+		lazy = true,
+		enabled = false,
 		event = "BufRead",
 		config = function()
 			require("plugins.git.diffview")

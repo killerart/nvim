@@ -16,11 +16,25 @@ EcoVim = {
 		},
 	},
 	plugins = {
+		ai = {
+			chatgpt = {
+				enabled = false,
+			},
+			codeium = {
+				enabled = true,
+			},
+			copilot = {
+				enabled = true,
+			},
+			tabnine = {
+				enabled = false,
+			},
+		},
 		completion = {
 			select_first_on_enter = false,
 		},
-		copilot = {
-			enabled = true,
+		experimental_noice = {
+			enabled = false,
 		},
 		rooter = {
 			-- Removing package.json from list in Monorepo Frontend Project can be helpful
