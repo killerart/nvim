@@ -3,25 +3,26 @@
 [![Last commit](https://img.shields.io/github/last-commit/ecosse3/nvim?style=for-the-badge)](https://github.com/ecosse3/nvim/commits/master)
 ![Stars](https://img.shields.io/github/stars/ecosse3/nvim?style=for-the-badge)
 ![License](https://img.shields.io/github/license/ecosse3/nvim?style=for-the-badge)
-![Neovim Version](https://img.shields.io/badge/For%20Neovim-0.7+-yellowgreen?style=for-the-badge&logo=neovim&logoColor=d8abbb&color=d8abbb)
+![Neovim Version](https://img.shields.io/badge/For%20Neovim-0.9+-yellowgreen?style=for-the-badge&logo=neovim&logoColor=d8abbb&color=d8abbb)
 
 ### A non-minimal Neovim config built to work most efficiently with Frontend Development.
 
 ## Features
 
-- Recommended default theme: [Tokyonight](https://github.com/folke/tokyonight.nvim)
-- Configured for Frontend Development
-- Highly performant even with a lot of plugins
-- Lazy loaded
-- Extendable LSP configuration
+- Configured for TypeScript Development (React.js, Next.js, Vue.js, Angular, Node.js etc.)
+- Great default theme: [Tokyonight](https://github.com/folke/tokyonight.nvim)
+- Lazy loaded via [lazy.nvim](https://github.com/folke/lazy.nvim)
+- Highly performant (90ms load time)
+- Extendable LSP configuration via [mason.nvim](https://github.com/williamboman/mason.nvim)
+- Support for :robot: AI: [ChatGPT](https://openai.com/blog/chatgpt/), [GitHub Copilot](https://github.com/features/copilot), [Codeium](https://codeium.com/) and [Tabnine](https://www.tabnine.com/)
 - Support for [TailwindCSS](https://tailwindcss.com/) with highlighted colors
-- Support for [Tabnine](https://www.tabnine.com/)
-- Support for [GitHub Copilot](https://github.com/features/copilot) and [ChatGPT](https://openai.com/blog/chatgpt/)
-- JSON autocompletion for most popular Frontend config
-- NPM packages autocompletion
-- Internal [Jest](https://github.com/facebook/jest) testing
-- Treesitter-based folding
-- Beautiful and functional custom statusline built with galaxyline.nvim
+- JSON autocompletion for most popular Frontend configs
+- NPM packages autocompletion in _package.json_
+- Internal [Jest](https://github.com/facebook/jest) testing and [Coverage](https://github.com/andythigpen/nvim-coverage) support
+- Debugging with [nvim-dap](https://github.com/mfussenegger/nvim-dap) (works with React.js & React Native)
+- Automatic Treesitter-based folding with imports folded by default
+- Current code context via [nvim-navic](https://github.com/SmiteshP/nvim-navic)
+- Beautiful and functional custom statusline built with [galaxyline.nvim](https://github.com/glepnir/galaxyline.nvim) 
 - Git management with [Lazygit](https://github.com/jesseduffield/lazygit), custom telescope commits view with [git-delta](https://github.com/dandavison/delta), [gitsigns](https://github.com/lewis6991/gitsigns.nvim) & [diffview](https://github.com/sindrets/diffview.nvim), custom git blame
 
 And of course usage of [telescope](https://github.com/nvim-telescope/telescope.nvim), [nvim-tree](https://github.com/kyazdani42/nvim-tree.lua), [barbar](https://github.com/romgrk/barbar.nvim), [cmp](https://github.com/hrsh7th/nvim-cmp), [treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [blankline](https://github.com/lukas-reineke/indent-blankline.nvim) & more!
@@ -70,15 +71,22 @@ Git Side Blame
 
 **Just clone GitHub repo into ~/.config/nvim.**
 
-After install configuration:
+**Prerequisities**
 
-1. Treesitter Languages are <ins>not installed</ins> by default.\
+- Make sure you have installed the latest version of Neovim v0.9.0+ (nightly is preferred).
+- Have wget, curl, unzip, git, make, pip, python, npm, node, luarocks, fd, ripgrep and cargo installed on your system. You can check if you are missing anything with `:checkhealth` command.
+- Have any nerd font installed. *Fira Code* has been used in screenshots. You can download it from [nerdfonts.com](https://www.nerdfonts.com/font-downloads).
+
+**After install configuration:**
+
+1. Selected treesitter Languages are installed by default.
+To check it run `:TSInstallInfo`.
 Make sure to run `:TSInstall <lang>` for specific language you want to install.
-2. LSP servers are enabled by default. You can check installed LSP servers by :Mason command.
+2. LSP servers are enabled by default. You can check installed LSP servers by `:Mason` command.
 
 ## Configuration
 
-To change EcoVim related config use the `config/EcoVim.lua` file.\
+To change EcoVim related config use the `config/EcoVim.lua` file.
 
 To change vim settings use the `config/options.lua` file.
 
@@ -90,6 +98,25 @@ Currently I have no idea how to write for you my whole workflow of using Ecovim 
 but I can write you the most useful custom key bindings by the frequency I use them.
 
 Space (SPC) is my Leader key.
+
+<details>
+<summary>File Explorer</summary>
+
+### File Explorer
+
+| Key Bindings | Description                                   |
+|--------------|-----------------------------------------------|
+| <C - e>      | Open File Explorer                            |
+| Backspace    | Back to file explorer (in editor normal mode) |
+| g?           | Open commands menu                            |
+| a            | Create new file/directory                     |
+| x            | Cut                                           |
+| c            | Copy                                          |
+| y            | Copy name                                     |
+| r            | Rename                                        |
+| I            | Toggle git ignore files                       |
+
+</details>
 
 <details>
 <summary>Searching</summary>
@@ -208,6 +235,9 @@ Space (SPC) is my Leader key.
 | <C - n>      | Finds next occurrence (like *) of word and puts multi-cursor there. Then you can go to Insert mode, Append, Change or Delete. [Read more](https://github.com/mg979/vim-visual-multi/wiki) |
 | <C - o>      | Jumps to previous cursor in jumplist. I use it very often.                                                                                                                                |
 | v <ENTER>    | Smartly selects next subjects of current treesitter context                                                                                                                               |
+| s            | Standalone jump to any word with `folke/flash.nvim`                                                                                                                                       |
+| ciq          | Change inside ANY quotes (`` or '' or "" etc.) with `mini.ai`                                                                                                                             |
+| cib          | Change inside ANY brackets ({} or [] or () etc.) with `mini.ai`                                                                                                                           |
 | za           | Toggle folds. By LSP and nvim-ufo they are automatically added to supported files in smart way.                                                                                           |
 | zM           | Close all folds                                                                                                                                                                           |
 | zR           | Open all folds                                                                                                                                                                            |
