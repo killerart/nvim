@@ -1,5 +1,4 @@
 -- Setup installer & lsp configs
-local typescript_ok, typescript = pcall(require, "typescript")
 local mason_ok, mason = pcall(require, "mason")
 local mason_lsp_ok, mason_lsp = pcall(require, "mason-lspconfig")
 local ufo_config_handler = require("plugins.nvim-ufo").handler
@@ -25,10 +24,8 @@ mason_lsp.setup({
     "html",
     "jsonls",
     "lua_ls",
-    "tailwindcss",
-    "tsserver",
-    "volar",
     "prismals",
+    "tailwindcss"
   },
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
   -- This setting has no relation with the `ensure_installed` setting.
@@ -66,21 +63,6 @@ capabilities.textDocument.foldingRange = {
 }
 
 -- Order matters
-
--- It enables tsserver automatically so no need to call lspconfig.tsserver.setup
-if typescript_ok then
-  typescript.setup({
-    disable_commands = false, -- prevent the plugin from creating Vim commands
-    debug = false,          -- enable debug logging for commands
-    -- LSP Config options
-    server = {
-      capabilities = require("lsp.servers.tsserver").capabilities,
-      handlers = require("lsp.servers.tsserver").handlers,
-      on_attach = require("lsp.servers.tsserver").on_attach,
-      settings = require("lsp.servers.tsserver").settings,
-    },
-  })
-end
 
 lspconfig.tailwindcss.setup({
   capabilities = require("lsp.servers.tailwindcss").capabilities,
@@ -123,10 +105,11 @@ lspconfig.vuels.setup({
   filetypes = require("lsp.servers.vuels").filetypes,
   handlers = handlers,
   init_options = require("lsp.servers.vuels").init_options,
-  on_attach = on_attach,
+  on_attach = require("lsp.servers.vuels").on_attach,
+  settings = require("lsp.servers.vuels").settings,
 })
 
-for _, server in ipairs({ "bashls", "emmet_ls", "graphql", "html", "volar", "prismals" }) do
+for _, server in ipairs({ "bashls", "emmet_ls", "graphql", "html", "prismals" }) do
   lspconfig[server].setup({
     on_attach = on_attach,
     capabilities = capabilities,

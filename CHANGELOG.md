@@ -2,6 +2,140 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/ecosse3/nvim/compare/v3.6.0...v3.7.0) (2023-08-02)
+
+
+### Features
+
+* **keymappings:** add visual keymap for multicursor plugin ([2f2ffcf](https://github.com/ecosse3/nvim/commit/2f2ffcf4daab586b4009eae90db354f383885a14))
+* **keymappings:** move spectre keymaps to plugin itself ([60c8b9f](https://github.com/ecosse3/nvim/commit/60c8b9ff15e92744aa5b166f037d88d94b76e1fb))
+* **keymappings:** move which-key bufferline keymaps to plugin itself ([97e48d5](https://github.com/ecosse3/nvim/commit/97e48d52d986b81acbe6b3e1834b491a589f9ab6))
+* **keymappings:** move which-key comment-box keymaps to plugin itself ([03cca90](https://github.com/ecosse3/nvim/commit/03cca903eb6e2efc814522a113d72d053142570e))
+* **keymappings:** move which-key git-conflict keymaps to plugin itself ([dd2d2a7](https://github.com/ecosse3/nvim/commit/dd2d2a792165f4e21adda7844066d282e8d8de1d))
+* **keymappings:** move which-key gitsigns keymaps to plugin itself ([a46ba66](https://github.com/ecosse3/nvim/commit/a46ba66b4b593b49be93decdc20f3e50cc34c041))
+* **keymappings:** move which-key lazygit keymaps to plugin itself ([eeabba7](https://github.com/ecosse3/nvim/commit/eeabba795ed973a6c6619d4c3e08a5130e534305))
+* **keymappings:** move which-key session manager keymaps to plugin itself ([78f0240](https://github.com/ecosse3/nvim/commit/78f0240979b074cdc02d96c057dff7d3ec7a3a2b))
+* **keymappings:** move which-key toggleterm keymaps to plugin itself ([5ac11bb](https://github.com/ecosse3/nvim/commit/5ac11bbe5ef797d2161cc848b35abaf84f64228f))
+* **plugins:** add min_chars opt to tailwind-fold plugin ([45741ab](https://github.com/ecosse3/nvim/commit/45741abfe0edb2a14541322ee052dfea97958a93))
+* **plugins:** change vim-visual-multi to multicursors.nvim ([1c34619](https://github.com/ecosse3/nvim/commit/1c346198117edab78e31892920068023c82a58d9))
+* **plugins:** enable diffview & move which-key keymaps to plugin itself ([8f71912](https://github.com/ecosse3/nvim/commit/8f71912ae95740b9cc0063eb12a47fdeaf2118d3))
+
+
+### Bug Fixes
+
+* **blame:** remove t_Co option which fixes highlighting in Git Blame window ([12b011b](https://github.com/ecosse3/nvim/commit/12b011b02871550c335a7e5949570abcb5ee325c))
+* **icons:** change deprecated nerd icons to new ones ([0e29a84](https://github.com/ecosse3/nvim/commit/0e29a84251a99e7688401acff0796e470a38d95d))
+* **icons:** fix alpha icons & provide new ones ([78c2704](https://github.com/ecosse3/nvim/commit/78c27041ab9e65bed07341343807da00d3a9561f))
+* **icons:** fix arrow bottom left icon of nvim-ufo ([dc6facc](https://github.com/ecosse3/nvim/commit/dc6faccf50a2c83c66d382925824725534e2a237))
+* **icons:** fix more icons ([15f44a9](https://github.com/ecosse3/nvim/commit/15f44a9e9ea3a703a5e3bbd530dd496afd45b0cc))
+* **keymappings:** remove duplicated keymaps of comment-box ([5ac2e50](https://github.com/ecosse3/nvim/commit/5ac2e505acdbb4233ad2a7aeab0f896faebf4fdb))
+* **plugins:** fix loading of vim-rooter ([efc344d](https://github.com/ecosse3/nvim/commit/efc344dbf50fb78faed7583f3102b0572c57d8c8))
+* **plugins:** remove deprecated anchor option from dressing ([8e3011b](https://github.com/ecosse3/nvim/commit/8e3011bf3df77b2012cd64f2ef1d31e37fb7d01b))
+
+## [3.6.0](https://github.com/ecosse3/nvim/compare/v3.5.2...v3.6.0) (2023-07-10)
+
+
+### Features
+
+* **cmp:** add support for TailwindCSS colors previews in autocompletion ([b37c297](https://github.com/ecosse3/nvim/commit/b37c297d955a4f37e013834d29d2f90f53afe121))
+* **lsp:** do NOT lazy load lspconfig ([e838416](https://github.com/ecosse3/nvim/commit/e838416e42906c60b936d71c3be07f2970ff8c7a))
+* **lsp:** switch typescript.nvim and tsserver LSP to typescript-tools plugin ([41164b6](https://github.com/ecosse3/nvim/commit/41164b67e4f69c5fb2f8df26cabfff45cfdd6d6a))
+* **plugins:** add mini.ai plugin ([d025184](https://github.com/ecosse3/nvim/commit/d02518452ea54cdeee5ebbc3308ae957259f8b6b))
+* **plugins:** add nvim-lsp-file-operations plugin ([dfea8a3](https://github.com/ecosse3/nvim/commit/dfea8a31aa0825ce01f2c32c5c7995fd6a8637f3))
+* **plugins:** add support for WezTerm & Alacritty in Zen plugin ([6754f7f](https://github.com/ecosse3/nvim/commit/6754f7f251cc118bc8112d51f1ac9e9d2aa6cad7))
+* **plugins:** add tailwind-fold.nvim plugin which automatically folds tailwind classes ([06fd8e3](https://github.com/ecosse3/nvim/commit/06fd8e38671569a8b07cfe95959e3daa7ae76c64))
+* **plugins:** change deprecated nvim-ts-rainbow to rainbow-delimiters.nvim ([0cadfda](https://github.com/ecosse3/nvim/commit/0cadfda882c76fa1a16cbe0489fbda59cea79e15))
+* **plugins:** deprecate null-ls ([689bb6e](https://github.com/ecosse3/nvim/commit/689bb6e20e53cef57f0dce4f8ce8b2400e9bb0e1))
+* **plugins:** keep main branch of typescript-tools ([704320d](https://github.com/ecosse3/nvim/commit/704320d91be48f223e60526275e8e072b5de45c3))
+* **plugins:** remove duplicated opts from TSC.nvim ([8b564a1](https://github.com/ecosse3/nvim/commit/8b564a1e42f84e89b69c841a3a5f15ebcc4392a5))
+* **plugins:** remove inlay-hints plugin since it's natively available in nvim 0.10 ([573589c](https://github.com/ecosse3/nvim/commit/573589c15b6d5bd305a746fbb50cd9cb5f9b5dc0))
+* **plugins:** replace lightspeed.nvim with folke/flash.nvim ([8e42262](https://github.com/ecosse3/nvim/commit/8e4226209df1b9cd39f7bafac1e78427df7884e4))
+
+
+### Bug Fixes
+
+* **lsp:** resolve error getting lsp code for diagnostics ([4848699](https://github.com/ecosse3/nvim/commit/48486999fd8a9c76871e6e6ee03a1022b97edc61))
+* minor typo in README.md ([#150](https://github.com/ecosse3/nvim/issues/150)) ([432bae9](https://github.com/ecosse3/nvim/commit/432bae905641597ec214dc03e171662729148088))
+* **plugins:** change loading event of gitsigns.nvim to BufRead so it doesn't throw an error ([b586ff6](https://github.com/ecosse3/nvim/commit/b586ff6600d1492bae3616237baeb0387dfdcbcf))
+* **plugins:** keep fixed width of 40 in nvim-tree ([cfdb764](https://github.com/ecosse3/nvim/commit/cfdb764368866b9ecf40b3ca20a1a03a6c1dc602))
+* **plugins:** remove improt-cost.nvim plugin since it breaks ([8d27308](https://github.com/ecosse3/nvim/commit/8d27308cc4c04ac7262043e30093395f7c170ad1))
+* **which-key:** change LSP mappings to new one from typescript-tools ([503f10f](https://github.com/ecosse3/nvim/commit/503f10f6910d8b90072d23402865a55f023e66f1))
+
+### [3.5.2](https://github.com/ecosse3/nvim/compare/v3.5.1...v3.5.2) (2023-05-27)
+
+
+### Bug Fixes
+
+* **cmp:** fix cmp when copilot is disabled ([7cbedc8](https://github.com/ecosse3/nvim/commit/7cbedc8b6e54a6650b0e3c99e1219469692d6257)), closes [#143](https://github.com/ecosse3/nvim/issues/143)
+* **cmp:** properly skip copilot comparators if copilot is disabled in EcoVim settings ([4ee606a](https://github.com/ecosse3/nvim/commit/4ee606a16b3b3844852f431557977b4d9625de25))
+* **git:** use new utils method to close other buffers with worktree ([63e17b9](https://github.com/ecosse3/nvim/commit/63e17b9c5e672605bb76603a8d44184fd9d4fba7))
+* **plugins:** install dap_repl treesitter parser only if not installed ([2c40c0e](https://github.com/ecosse3/nvim/commit/2c40c0e04939c31ade840ce0da9ad88222aeb7e6)), closes [#145](https://github.com/ecosse3/nvim/issues/145)
+
+### [3.5.1](https://github.com/ecosse3/nvim/compare/v3.5.0...v3.5.1) (2023-05-24)
+
+
+### Bug Fixes
+
+* **treesitter:** ensure that "vim" parser is installed ([6ca2ca3](https://github.com/ecosse3/nvim/commit/6ca2ca36b598eb4081d0c17eb8fae821fbf6b853)), closes [#142](https://github.com/ecosse3/nvim/issues/142)
+* **which-key:** close other buffers ([#138](https://github.com/ecosse3/nvim/issues/138)) ([ba94cf6](https://github.com/ecosse3/nvim/commit/ba94cf68f5c13df2af4e93a7e1b299b22dfb47c0))
+
+## [3.5.0](https://github.com/ecosse3/nvim/compare/v3.4.0...v3.5.0) (2023-05-17)
+
+
+### Features
+
+* **dap:** add nvim-dap-vscode-js new adapter ([69a8a59](https://github.com/ecosse3/nvim/commit/69a8a59c1dd6e18eaa8d8b32db272bc6fff965b6))
+* **plugins:** add nvim-dap-repl-highlights with treesitter plugin ([4816b16](https://github.com/ecosse3/nvim/commit/4816b168a3a9f4d7632afde98a041f34c38bfdbf))
+* **plugins:** switch barbar.nvim to bufferline.nvim ([6ecd9f4](https://github.com/ecosse3/nvim/commit/6ecd9f40b19f82beffd308bdc33681326b77b356))
+* **ui:** add rounded float border to LspInfo ([2bcd96e](https://github.com/ecosse3/nvim/commit/2bcd96e7980f8c0d4ab2d5dc8eb279b2c9ebcd8e))
+* **ui:** link LspInfoBorder to FloatBoder in tokyonight.nvim ([60e737c](https://github.com/ecosse3/nvim/commit/60e737c8cbfdbe18bc78253dc2f50f837817bdbe))
+
+
+### Bug Fixes
+
+* **colorscheme:** almost correct barbar highlights ([00645d6](https://github.com/ecosse3/nvim/commit/00645d642bba00d7caff8f66b0dcf858f5eb86b7))
+* **keymaps:** support range formating with visual selection ([24bef17](https://github.com/ecosse3/nvim/commit/24bef176230ac6779c5d1b5427f50d33d14a9b44))
+
+## [3.4.0](https://github.com/ecosse3/nvim/compare/v3.3.0...v3.4.0) (2023-04-28)
+
+
+### Features
+
+* **plugins:** add list of base languages to ensure_installed in treesitter ([b0c58b1](https://github.com/ecosse3/nvim/commit/b0c58b1cd77b9a4f51affb29ee75dd50361dfa40)), closes [#135](https://github.com/ecosse3/nvim/issues/135)
+
+
+### Bug Fixes
+
+* **plugins:** resize of nvim-tree works with "File Explorer" title ([94c4fed](https://github.com/ecosse3/nvim/commit/94c4fed05d7e4d753bd8dc71ef7ea89cfe70b490))
+* **winbar:** return filename if parent dir doesn't exist ([6b53c18](https://github.com/ecosse3/nvim/commit/6b53c18b54a0709c8c294d8748ee604eb301a135)), closes [#134](https://github.com/ecosse3/nvim/issues/134)
+
+## [3.3.0](https://github.com/ecosse3/nvim/compare/v3.2.0...v3.3.0) (2023-04-25)
+
+
+### Features
+
+* **cmp:** prioritize copilot cmp comparators & lint ([afe1f07](https://github.com/ecosse3/nvim/commit/afe1f079f6bd20ef4947fe5fe53d5d7236359ebd))
+* **dap:** add new keymaps to focus specific dap window & disable shade by default ([e3710c1](https://github.com/ecosse3/nvim/commit/e3710c1b0cf401a6a3e9acdcee063feb4a903749))
+* **lsp:** enable codespell for markdown & text files ([0e2e426](https://github.com/ecosse3/nvim/commit/0e2e42622a77c8ba364f3239d179f4b7e9d0c382))
+* **lsp:** improve vuels lsp config ([e64b642](https://github.com/ecosse3/nvim/commit/e64b642b35ae3e9756c686f144c043ae142be13c))
+* **options:** set cmdheight to 0 by default (can be changed personally) ([241691f](https://github.com/ecosse3/nvim/commit/241691fec47e867cc75cb7a6c10b76c04a317cc0))
+* **plugins:** add 'jump_by_subwords' option to EcoVim config with nvim-spider plugin && enable noice by default ([b23c9ae](https://github.com/ecosse3/nvim/commit/b23c9ae1e78278a11b0c935cd6aab1a7a1853eff))
+* **plugins:** add glance.nvim plugin for great definitions/references LSP UI ([6fda79d](https://github.com/ecosse3/nvim/commit/6fda79d19f4bde6ea09d73ecb1dccd5039481063))
+* **plugins:** add tsc.nvim ([fb762fe](https://github.com/ecosse3/nvim/commit/fb762fe9338c4c4c2802cf434f3d6cc662ec51d2))
+* **plugins:** add tsc.nvim mapping to which-key & remove chatgpt config file ([10e68ae](https://github.com/ecosse3/nvim/commit/10e68aedd9cc3ccdeeea51134e1fcb070951c2c2))
+* **plugins:** replace ChatGPT.nvim with NeoAI.nvim ([772af39](https://github.com/ecosse3/nvim/commit/772af39bcc5d09ce729635554311d558c9f1edd5))
+* **plugins:** update nvim-tree & make "File Explorer" title always align in the middle even when resized ([9494b6f](https://github.com/ecosse3/nvim/commit/9494b6fb54620424dcc0ab75e7f23c3dbadeb01d))
+* **winbar:** move winbar autocmds to winbar itself & add titles for DAP windows ([aa4b3fa](https://github.com/ecosse3/nvim/commit/aa4b3faa312e5195f323325226fe989f5b1e48c2))
+* **zen:** disable signcolumn on zen mode & lint ([07954cf](https://github.com/ecosse3/nvim/commit/07954cf3f4817acd3fbf86f6896d8541f801d54c))
+
+
+### Bug Fixes
+
+* **colorscheme:** change color of BufferInactiveIndex in tab bar (barbar.nvim) ([1f7a415](https://github.com/ecosse3/nvim/commit/1f7a4150026df2b9f39766ff49b38d3611ef787f))
+* return nvim-notify notification record from vim.notify ([#133](https://github.com/ecosse3/nvim/issues/133)) ([f35c525](https://github.com/ecosse3/nvim/commit/f35c525f865d1fada6e7f92c86c51884913f98f8))
+* **telescope:** weird issue in insert mode in telescope ([ee6d428](https://github.com/ecosse3/nvim/commit/ee6d4287b58b84e480059a34aba96d628d15dc21))
+* **utils:** change deprecated pretty_print to print ([a4a2cf4](https://github.com/ecosse3/nvim/commit/a4a2cf42b67fde07451dfd5cce364bc23ca962cc))
+
 ## [3.2.0](https://github.com/ecosse3/nvim/compare/v3.1.1...v3.2.0) (2023-04-04)
 
 
