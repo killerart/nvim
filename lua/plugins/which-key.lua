@@ -52,7 +52,7 @@ wk.setup {
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
   -- triggers = "auto", -- automatically setup triggers
-  triggers = {"<leader>"}, -- or specify a list manually
+  triggers = {"<leader>", "<LocalLeader>"}, -- or specify a list manually
   triggers_blacklist = {
     -- list of mode / prefixes that should never be hooked by WhichKey
     -- this is mostly relevant for key maps that start with a native binding
@@ -72,7 +72,7 @@ local opts = {
 }
 
 local visual_opts = {
-  mode = "v", -- NORMAL mode
+  mode = "v", -- VISUAL mode
   prefix = "<leader>",
   buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
   silent = true, -- use `silent` when creating keymaps
@@ -151,6 +151,7 @@ local normal_mode_mappings = {
     r = { 'repl' },
     s = { 'scopes' },
     t = { 'terminate' },
+    U = { 'open UI' },
     v = { 'log variable' },
     V = { 'log variable above' },
     w = { 'watches' },
@@ -158,16 +159,17 @@ local normal_mode_mappings = {
 
   g = {
     name = 'Git',
-    a = { '<cmd>!git add %:p<CR>',                                              'add current' },
-    A = { '<cmd>!git add .<CR>',                                                'add all' },
-    b = { '<cmd>lua require("internal.blame").open()<CR>',                      'blame' },
-    B = { '<cmd>Telescope git_branches<CR>',                                    'branches' },
+    a = { '<cmd>!git add %:p<CR>',                                        'add current' },
+    A = { '<cmd>!git add .<CR>',                                          'add all' },
+    b = { '<cmd>lua require("internal.blame").open()<CR>',                'blame' },
+    B = { '<cmd>Telescope git_branches<CR>',                              'branches' },
     c = {
       name = 'Conflict',
     },
     h = {
       name = 'Hunk',
     },
+    i = { '<cmd>Octo issue list<CR>',                                     'Issues List' },
     l = {
       name = 'Log',
       A = {'<cmd>lua require("plugins.telescope").my_git_commits()<CR>',  'commits (Telescope)'},
@@ -176,7 +178,8 @@ local normal_mode_mappings = {
       c = {'<cmd>LazyGitFilterCurrentFile<CR>',                           'buffer commits'},
     },
     m = { 'blame line' },
-    S = { '<cmd>Telescope git_status<CR>',                                'telescope status' },
+    p = { '<cmd>Octo pr list<CR>',                                        'Pull Requests List' },
+    s = { '<cmd>Telescope git_status<CR>',                                'telescope status' },
     w = {
       name = 'Worktree',
       w = 'worktrees',
@@ -192,6 +195,10 @@ local normal_mode_mappings = {
     r = { 'refactor' },
     s = { "<cmd>SessionManager save_current_session<CR>",            'save session' },
     t = { "<cmd>TodoTrouble<CR>",                                    'todo' },
+  },
+
+  r = {
+    name = 'Refactor',
   },
 
   s = {
@@ -236,6 +243,10 @@ local visual_mode_mappings = {
   p = {
     name = "Project",
     r = { 'refactor' },
+  },
+
+  r = {
+    name = "Refactor",
   },
 
   t = {

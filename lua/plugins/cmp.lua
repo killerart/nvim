@@ -5,15 +5,29 @@ local _, tabnine = pcall(require, "cmp_tabnine.config")
 
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
+  P("Failed to load cmp")
   return
 end
 
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
+  P("Failed to load luasnip")
   return
 end
 
-local copilot_status_ok, copilot_cmp_comparators = pcall(require, "copilot_cmp.comparators")
+local cmp_git_ok, cmp_git = pcall(require, "cmp_git")
+if not cmp_git_ok then
+  P("Failed to load cmp_git")
+  return
+end
+
+cmp_git.setup()
+
+local copilot_comparators_status_ok, copilot_cmp_comparators = pcall(require, "copilot_cmp.comparators")
+if not copilot_comparators_status_ok then
+  P("Failed to load copilot_cmp.comparators")
+  return
+end
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -102,7 +116,7 @@ local source_mapping = {
   cmp_tabnine = EcoVim.icons.light,
   Copilot = EcoVim.icons.copilot,
   Codeium = EcoVim.icons.codeium,
-  nvim_lsp = EcoVim.icons.paragraph .. "LSP",
+  nvim_lsp = EcoVim.icons.stack .. "LSP",
   buffer = EcoVim.icons.buffer .. "BUF",
   nvim_lua = EcoVim.icons.bomb,
   luasnip = EcoVim.icons.snippet .. "SNP",
@@ -246,32 +260,43 @@ cmp.setup({
   -- You should specify your *installed* sources.
   sources = {
     {
+      name = "copilot",
+      priority = 10,
+      max_item_count = 3,
+    },
+    {
       name = "nvim_lsp",
       priority = 10,
-      -- Limits LSP results to specific types based on line context (FIelds, Methods, Variables)
+      -- Limits LSP results to specific types based on line context (Fields, Methods, Variables)
       entry_filter = limit_lsp_types,
     },
     { name = "npm",         priority = 9 },
     { name = "codeium",     priority = 9 },
-    { name = "copilot",     priority = 9 },
+    { name = "git",         priority = 7 },
     { name = "cmp_tabnine", priority = 7 },
-    { name = "luasnip",     priority = 7  },
+    {
+      name = "luasnip",
+      priority = 7,
+      max_item_count = 5,
+    },
     {
       name = "buffer",
       priority = 7,
       keyword_length = 5,
+      max_item_count = 10,
       option = buffer_option,
     },
-    { name = "nvim_lua",    priority = 5 },
-    { name = "path",        priority = 4 },
-    { name = "calc",        priority = 3 },
+    { name = "nvim_lua", priority = 5 },
+    { name = "path",     priority = 4 },
+    { name = "calc",     priority = 3 },
   },
   sorting = {
+    priority_weight = 2,
     comparators = {
       deprioritize_snippet,
+      copilot_cmp_comparators.prioritize or function() end,
       cmp.config.compare.exact,
       cmp.config.compare.locality,
-      copilot_cmp_comparators.prioritize or function() end,
       cmp.config.compare.score,
       cmp.config.compare.recently_used,
       cmp.config.compare.offset,
@@ -294,6 +319,9 @@ cmp.setup({
   experimental = {
     ghost_text = true,
   },
+  performance = {
+    max_view_entries = 100,
+  }
 })
 
 -- ╭──────────────────────────────────────────────────────────╮
