@@ -1,7 +1,8 @@
 -- Setup installer & lsp configs
 local mason_ok, mason = pcall(require, "mason")
 local mason_lsp_ok, mason_lsp = pcall(require, "mason-lspconfig")
-local ufo_config_handler = require("plugins.nvim-ufo").handler
+local ufo_utils = require("utils._ufo")
+local ufo_config_handler = ufo_utils.handler
 
 if not mason_ok or not mason_lsp_ok then
   return
@@ -46,14 +47,10 @@ local handlers = {
     border = EcoVim.ui.float.border,
   }),
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = EcoVim.ui.float.border }),
-  ["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
-    { virtual_text = EcoVim.lsp.virtual_text }
-  ),
 }
 
 local function on_attach(client, bufnr)
-  -- set up buffer keymaps, etc.
+  vim.lsp.inlay_hint.enable(true, { bufnr })
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -75,8 +72,19 @@ require("mason-lspconfig").setup_handlers {
     }
   end,
 
+  ["vtsls"] = function()
+    require("lspconfig.configs").vtsls = require("vtsls").lspconfig
+
+    lspconfig.vtsls.setup({
+      capabilities = capabilities,
+      handlers = require("config.lsp.servers.tsserver").handlers,
+      on_attach =require("config.lsp.servers.tsserver").on_attach,
+      settings = require("config.lsp.servers.tsserver").settings,
+    })
+  end,
+
   ["tsserver"] = function()
-    -- Skip since we use typescript-tools.nvim
+    -- Skip since we use vtsls
   end,
 
   ["tailwindcss"] = function()
@@ -126,7 +134,7 @@ require("mason-lspconfig").setup_handlers {
     })
   end,
 
-  ["vuels"] = function ()
+  ["vuels"] = function()
     lspconfig.vuels.setup({
       filetypes = require("config.lsp.servers.vuels").filetypes,
       handlers = handlers,
@@ -139,5 +147,5 @@ require("mason-lspconfig").setup_handlers {
 
 require("ufo").setup({
   fold_virt_text_handler = ufo_config_handler,
-  close_fold_kinds = { "imports" },
+  close_fold_kinds_for_ft = { default = { "imports" } },
 })
