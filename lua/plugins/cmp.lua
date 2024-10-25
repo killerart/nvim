@@ -1,80 +1,3 @@
-local types = require("cmp.types")
-
-local _, tabnine = pcall(require, "cmp_tabnine.config")
-
--- ╭──────────────────────────────────────────────────────────╮
--- │ Utils                                                    │
--- ╰──────────────────────────────────────────────────────────╯
-local check_backspace = function()
-  local col = vim.fn.col(".") - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
-end
-
-local function deprioritize_snippet(entry1, entry2)
-  if entry1:get_kind() == types.lsp.CompletionItemKind.Snippet then
-    return false
-  end
-  if entry2:get_kind() == types.lsp.CompletionItemKind.Snippet then
-    return true
-  end
-end
-
-local function limit_lsp_types(entry, ctx)
-  local kind = entry:get_kind()
-  local line = ctx.cursor.line
-  local col = ctx.cursor.col
-  local char_before_cursor = string.sub(line, col - 1, col - 1)
-  local char_after_dot = string.sub(line, col, col)
-
-  if char_before_cursor == "." and char_after_dot:match("[a-zA-Z]") then
-    if
-        kind == types.lsp.CompletionItemKind.Method
-        or kind == types.lsp.CompletionItemKind.Field
-        or kind == types.lsp.CompletionItemKind.Property
-    then
-      return true
-    else
-      return false
-    end
-  elseif string.match(line, "^%s+%w+$") then
-    if kind == types.lsp.CompletionItemKind.Function or kind == types.lsp.CompletionItemKind.Variable then
-      return true
-    else
-      return false
-    end
-  end
-
-  return true
-end
-
-local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-    return false
-  end
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
-end
-
---- Get completion context, i.e., auto-import/target module location.
---- Depending on the LSP this information is stored in different parts of the
---- lsp.CompletionItem payload. The process to find them is very manual: log the payloads
---- And see where useful information is stored.
-local function get_lsp_completion_context(completion, source)
-  local ok, source_name = pcall(function()
-    return source.source.client.config.name
-  end)
-  if not ok then
-    return nil
-  end
-  if source_name == "tsserver" or source_name == "typescript-tools" then
-    return completion.detail
-  elseif source_name == "pyright" then
-    if completion.labelDetails ~= nil then
-      return completion.labelDetails.description
-    end
-  end
-end
-
 -- ╭──────────────────────────────────────────────────────────╮
 -- │ Setup                                                    │
 -- ╰──────────────────────────────────────────────────────────╯
@@ -119,17 +42,98 @@ if EcoVim.plugins.ai.tabnine.enabled then
   })
 end
 
-
 return {
   {
     "hrsh7th/nvim-cmp",
     version = false,
     event = "InsertEnter",
     config = function()
-      local cmp = require('cmp');
-      local luasnip = require('luasnip');
+      local cmp = require("cmp")
+
+      local types = require("cmp.types")
+
+      local _, tabnine = pcall(require, "cmp_tabnine.config")
+
+      -- ╭──────────────────────────────────────────────────────────╮
+      -- │ Utils                                                    │
+      -- ╰──────────────────────────────────────────────────────────╯
+      local check_backspace = function()
+        local col = vim.fn.col(".") - 1
+        return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
+      end
+
+      local function deprioritize_snippet(entry1, entry2)
+        if entry1:get_kind() == types.lsp.CompletionItemKind.Snippet then
+          return false
+        end
+        if entry2:get_kind() == types.lsp.CompletionItemKind.Snippet then
+          return true
+        end
+      end
+
+      local function limit_lsp_types(entry, ctx)
+        local kind = entry:get_kind()
+        local line = ctx.cursor.line
+        local col = ctx.cursor.col
+        local char_before_cursor = string.sub(line, col - 1, col - 1)
+        local char_after_dot = string.sub(line, col, col)
+
+        if char_before_cursor == "." and char_after_dot:match("[a-zA-Z]") then
+          if
+              kind == types.lsp.CompletionItemKind.Method
+              or kind == types.lsp.CompletionItemKind.Field
+              or kind == types.lsp.CompletionItemKind.Property
+          then
+            return true
+          else
+            return false
+          end
+        elseif string.match(line, "^%s+%w+$") then
+          if
+              kind == types.lsp.CompletionItemKind.Function
+              or kind == types.lsp.CompletionItemKind.Variable
+          then
+            return true
+          else
+            return false
+          end
+        end
+
+        return true
+      end
+
+      local has_words_before = function()
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+          return false
+        end
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0
+            and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+      end
+
+      --- Get completion context, i.e., auto-import/target module location.
+      --- Depending on the LSP this information is stored in different parts of the
+      --- lsp.CompletionItem payload. The process to find them is very manual: log the payloads
+      --- And see where useful information is stored.
+      local function get_lsp_completion_context(completion, source)
+        local ok, source_name = pcall(function()
+          return source.source.client.config.name
+        end)
+        if not ok then
+          return nil
+        end
+        if source_name == "tsserver" or source_name == "typescript-tools" then
+          return completion.detail
+        elseif source_name == "pyright" then
+          if completion.labelDetails ~= nil then
+            return completion.labelDetails.description
+          end
+        end
+      end
+
+      local luasnip = require("luasnip")
       local lspkind = require("lspkind")
-      require('cmp_git').setup()
+      require("cmp_git").setup()
       require("luasnip/loaders/from_vscode").lazy_load()
 
       cmp.setup({
@@ -228,10 +232,14 @@ return {
 
             if entry.source.name == "cmp_tabnine" then
               if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                item_with_kind.kind = " " .. lspkind.symbolic("Event", { with_text = false }) .. " TabNine"
+                item_with_kind.kind = " "
+                    .. lspkind.symbolic("Event", { with_text = false })
+                    .. " TabNine"
                 item_with_kind.menu = item_with_kind.menu .. entry.completion_item.data.detail
               else
-                item_with_kind.kind = " " .. lspkind.symbolic("Event", { with_text = false }) .. " TabNine"
+                item_with_kind.kind = " "
+                    .. lspkind.symbolic("Event", { with_text = false })
+                    .. " TabNine"
                 item_with_kind.menu = item_with_kind.menu .. " TBN"
               end
             end
@@ -316,7 +324,7 @@ return {
         },
         performance = {
           max_view_entries = 100,
-        }
+        },
       })
     end,
     dependencies = {
@@ -333,8 +341,10 @@ return {
         dependencies = "rafamadriz/friendly-snippets",
         build = "make install_jsregexp",
         config = function()
-          require("luasnip.loaders.from_vscode").lazy_load { paths = { vim.fn.stdpath("config") .. "/snippets" } }
-        end
+          require("luasnip.loaders.from_vscode").lazy_load({
+            paths = { vim.fn.stdpath("config") .. "/snippets" },
+          })
+        end,
       },
       {
         cond = EcoVim.plugins.ai.tabnine.enabled,
@@ -346,7 +356,7 @@ return {
         opts = {
           ignore = {},
           only_semantic_versions = false,
-        }
+        },
       },
       {
         "zbirenbaum/copilot-cmp",
