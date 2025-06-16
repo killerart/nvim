@@ -26,72 +26,26 @@ return {
 		end,
 	},
 
-  -- ╭─────────────────────────────────────────────────────────╮
-  -- │ Navigating (Telescope/Tree/Refactor)                    │
-  -- ╰─────────────────────────────────────────────────────────╯
-  {
-    "nvim-pack/nvim-spectre",
-    lazy = true,
-    keys = {
-      {
-        "<Leader>pr",
-        "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
-        desc = "refactor",
-      },
-      {
-        "<Leader>pr",
-        "<cmd>lua require('spectre').open_visual()<CR>",
-        mode = "v",
-        desc = "refactor",
-      }
-    }
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    lazy = false,
-    config = function()
-      require("plugins.telescope")
-    end,
-    dependencies = {
-      { "nvim-lua/popup.nvim" },
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
-      { "cljoly/telescope-repo.nvim" },
-    },
-  },
-  {
-    "kevinhwang91/nvim-bqf",
-    ft = "qf",
-    init = function()
-      require('plugins.bqf-init')
-    end,
-  },
-  {
-    "nvim-tree/nvim-tree.lua",
-    cmd = {
-      "NvimTreeOpen",
-      "NvimTreeClose",
-      "NvimTreeToggle",
-      "NvimTreeFindFile",
-      "NvimTreeFindFileToggle",
-    },
-    keys = {
-      { "<C-e>", "<cmd>lua require('nvim-tree.api').tree.toggle()<CR>", desc = "NvimTree" },
-    },
-    config = function()
-      require("plugins.tree")
-    end,
-  },
-  {
-    "gbprod/stay-in-place.nvim",
-    lazy = false,
-    config = true, -- run require("stay-in-place").setup()
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "BufEnter",
-    config = true,
-  },
+	-- Treesitter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		event = "BufReadPre",
+		config = function()
+			require("plugins.treesitter")
+		end,
+		dependencies = {
+			"mrjones2014/nvim-ts-rainbow",
+			"JoosepAlviste/nvim-ts-context-commentstring",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			"RRethy/nvim-treesitter-textsubjects",
+			{
+				"m-demare/hlargs.nvim",
+				config = function()
+					require("hlargs").setup({ color = "#F7768E" })
+				end,
+			},
+		},
+	},
 
 	-- Navigating (Telescope/Tree/Refactor)
 	{

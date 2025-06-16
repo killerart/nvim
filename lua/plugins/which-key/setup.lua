@@ -81,15 +81,13 @@ wk.add({
 wk.add({
   { "<leader>b",  group = "Buffer" },
   { "<leader>bs", group = "Sort" },
-  { "<leader>bc", '<cmd>lua require("utils").closeOtherBuffers()<CR>', desc = "Close but current" },
+  { "<leader>bc", '<cmd>lua Snacks.bufdelete.other()<CR>', desc = "Close but current" },
   { "<leader>bf", "<cmd>bfirst<CR>",                                   desc = "First buffer" },
 })
 
 wk.add({
   { "<leader>c",  group = "LSP",                                      mode = { "n", "v" } },
   { "<leader>ca", desc = "code action",                               mode = { "n", "v" } },
-  { "<leader>cd", "<cmd>Trouble diagnostics toggle<CR>",              desc = "diagnostics (Trouble)" },
-  { "<leader>cD", "<cmd>Telescope diagnostics wrap_results=true<CR>", desc = "workspace diagnostics" },
   { "<leader>cf", desc = "format",                                    mode = { "n", "v" } },
   { "<leader>cl", desc = "line diagnostics" },
   { "<leader>cr", desc = "rename" },
@@ -98,44 +96,22 @@ wk.add({
 })
 
 wk.add({
-  { "<leader>d",  group = "Debug" },
-  { "<leader>da", desc = "attach" },
-  { "<leader>db", desc = "breakpoint" },
-  { "<leader>dc", desc = "continue" },
-  { "<leader>dC", desc = "close UI" },
-  { "<leader>dd", desc = "continue" },
-  { "<leader>dh", desc = "visual hover" },
-  { "<leader>di", desc = "step into" },
-  { "<leader>do", desc = "step over" },
-  { "<leader>dO", desc = "step out" },
-  { "<leader>dr", desc = "repl" },
-  { "<leader>ds", desc = "scopes" },
-  { "<leader>dt", desc = "terminate" },
-  { "<leader>dU", desc = "open UI" },
-  { "<leader>dv", desc = "log variable" },
-  { "<leader>dV", desc = "log variable above" },
-  { "<leader>dw", desc = "watches" },
+  { "<leader>d", group = "Debug" },
 })
 
 wk.add({
-  { "<leader>g",   group = "Git",                                                         mode = { "n", "v" } },
-  { "<leader>ga",  "<cmd>!git add %:p<CR>",                                               desc = 'add current' },
-  { "<leader>gA",  "<cmd>!git add .<CR>",                                                 desc = 'add all' },
-  { "<leader>gb",  "<cmd>BlameToggle window<CR>",                                         desc = 'blame' },
-  { "<leader>gB",  "<cmd>Telescope git_branches<CR>",                                     desc = 'branches' },
+  { "<leader>g",   group = "Git",                     mode = { "n", "v" } },
+  { "<leader>ga",  "<cmd>!git add %:p<CR>",           desc = 'add current' },
+  { "<leader>gA",  "<cmd>!git add .<CR>",             desc = 'add all' },
+  { "<leader>gb",  "<cmd>BlameToggle window<CR>",     desc = 'blame' },
   { "<leader>gc",  group = "Conflict" },
   { "<leader>gh",  group = "Hunk" },
-  { "<leader>ghr", desc = "reset hunk",                                                   mode = { "v" } },
-  { "<leader>ghs", desc = "stage hunk",                                                   mode = { "v" } },
-  { "<leader>gi",  "<cmd>Octo issue list<CR>",                                            desc = 'Issues List' },
+  { "<leader>ghr", desc = "reset hunk",               mode = { "v" } },
+  { "<leader>ghs", desc = "stage hunk",               mode = { "v" } },
+  { "<leader>gi",  "<cmd>Octo issue list<CR>",        desc = 'Issues List' },
   { "<leader>gl",  group = "Log" },
-  { "<leader>glA", "<cmd>lua require('plugins.telescope.pickers').my_git_commits()<CR>",  desc = 'commits (Telescope)' },
-  { "<leader>gla", "<cmd>LazyGitFilter<CR>",                                              desc = 'commits' },
-  { "<leader>glC", "<cmd>lua require('plugins.telescope.pickers').my_git_bcommits()<CR>", desc = 'buffer commits (Telescope)' },
-  { "<leader>glc", "<cmd>LazyGitFilterCurrentFile<CR>",                                   desc = 'buffer commits' },
   { "<leader>gm",  desc = 'blame line' },
-  { "<leader>gp",  "<cmd>Octo pr list<CR>",                                               desc = 'Pull Requests List' },
-  { "<leader>gs",  "<cmd>Telescope git_status<CR>",                                       desc = 'telescope status' },
+  { "<leader>gp",  "<cmd>Octo pr list<CR>",           desc = 'Pull Requests List' },
   { "<leader>gw",  group = "Worktree" },
   { "<leader>gww", desc = 'worktrees' },
   { "<leader>gwc", desc = 'create worktree' },
@@ -143,10 +119,9 @@ wk.add({
 
 wk.add({
   { "<leader>p",  group = "Project" },
-  { "<leader>pf", desc = { "file" } },
-  { "<leader>pw", desc = { "word" } },
-  { "<leader>pl", "<cmd>lua require'telescope'.extensions.repo.cached_list{file_ignore_patterns={'/%.cache/', '/%.cargo/', '/%.local/', '/%timeshift/', '/usr/', '/srv/', '/%.oh%-my%-zsh', '/Library/', '/%.cocoapods/'}}<CR>", desc = "list" },
-  { "<leader>pr", desc = { "refactor" },                                                                                                                                                                                         mode = { "v", "n" } },
+  { "<leader>pf", desc = "file" },
+  { "<leader>pw", desc = "word" },
+  { "<leader>pr", desc = "refactor",                                                                                                                                                                                             mode = { "v", "n" } },
   { "<leader>pt", "<cmd>TodoTrouble<CR>",                                                                                                                                                                                        desc = "todo" },
 })
 
@@ -156,12 +131,6 @@ wk.add({
 
 wk.add({
   { "<leader>s",  group = "Search" },
-  { "<leader>sc", "<cmd>Telescope colorscheme<CR>",                                  desc = "color schemes" },
-  { "<leader>sd", "<cmd>lua require('plugins.telescope.pickers').edit_neovim()<CR>", desc = "dotfiles" },
-  { "<leader>sh", "<cmd>Telescope oldfiles hidden=true<CR>",                         desc = "file history" },
-  { "<leader>sH", "<cmd>lua require('plugins.telescope').command_history()<CR>",     desc = "command history" },
-  { "<leader>ss", "<cmd>Telescope search_history theme=dropdown<CR>",                desc = "search history" },
-  { "<leader>sq", "<cmd>Telescope quickfix<CR>",                                     desc = "quickfix list" },
 })
 
 wk.add({
@@ -184,15 +153,15 @@ end
 local function attach_typescript(bufnr)
   wk.add({
     { buffer = bufnr },
-    { "<leader>c",  group = "LSP",                          },
-    { "<leader>ce", "<cmd>TSC<CR>",                         desc = "workspace errors (TSC)"  },
-    { "<leader>cF", "<cmd>VtsExec fix_all<CR>",             desc = "fix all"                 },
-    { "<leader>ci", "<cmd>VtsExec add_missing_imports<CR>", desc = "import all"              },
-    { "<leader>co", "<cmd>VtsExec organize_imports<CR>",    desc = "organize imports"        },
-    { "<leader>cs", "<cmd>VtsExec source_actions<CR>",      desc = "source actions"          },
-    { "<leader>cu", "<cmd>VtsExec remove_unused<CR>",       desc = "remove unused"           },
-    { "<leader>cV", "<cmd>VtsExec select_ts_version<CR>",   desc = "select TS version"       },
-    { "<leader>cF", "<cmd>VtsExec file_references<CR>",     desc = "file references"         },
+    { "<leader>c",   group = "LSP", },
+    { "<leader>ce",  "<cmd>TSC<CR>",                      desc = "workspace errors (TSC)" },
+    { "<leader>cF",  "<cmd>TSToolsFixAll<CR>",            desc = "fix all" },
+    { "<leader>ci",  "<cmd>TSToolsAddMissingImports<CR>", desc = "import all" },
+    { "<leader>co",  "<cmd>TSToolsOrganizeImports<CR>",   desc = "organize imports" },
+    { "<leader>cs",  "<cmd>TSToolsSortImports<CR>",       desc = "sort imports" },
+    { "<leader>cu",  "<cmd>TSToolsRemoveUnused<CR>",      desc = "remove unused" },
+    { "<leader>cR",  "<cmd>TSToolsRenameFile<CR>",        desc = "rename file" },
+    { "<leader>cF",  "<cmd>TSToolsFileReferences<CR>",    desc = "file references" },
   })
 end
 
@@ -207,12 +176,6 @@ local function attach_npm(bufnr)
     { "<leader>nr",  '<cmd>lua require("package-info").reinstall()<CR>',      desc = "reinstall dependencies" },
     { "<leader>ns",  '<cmd>lua require("package-info").show()<CR>',           desc = "show" },
     { "<leader>nu",  '<cmd>lua require("package-info").update()<CR>',         desc = "update package" },
-  })
-end
-
-local function attach_zen(bufnr)
-  wk.add({
-    { "<leader>z", "<cmd>ZenMode<CR>", buffer = bufnr, desc = "zen", nowait = false, remap = false },
   })
 end
 
@@ -242,8 +205,8 @@ end
 local function attach_nvim_tree(bufnr)
   wk.add({
     { buffer = bufnr },
-    { "<leader>=", "<cmd>NvimTreeResize +5<CR>", desc = "resize +5" },
-    { "<leader>-", "<cmd>NvimTreeResize -5<CR>", desc = "resize +5" },
+    { "<leader>=",   "<cmd>NvimTreeResize +5<CR>", desc = "resize +5" },
+    { "<leader>-",   "<cmd>NvimTreeResize -5<CR>", desc = "resize +5" },
   })
 end
 
@@ -251,7 +214,6 @@ return {
   attach_markdown = attach_markdown,
   attach_typescript = attach_typescript,
   attach_npm = attach_npm,
-  attach_zen = attach_zen,
   attach_jest = attach_jest,
   attach_spectre = attach_spectre,
   attach_nvim_tree = attach_nvim_tree,

@@ -2,6 +2,84 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/ecosse3/nvim/compare/v4.1.1...v4.2.0) (2025-02-04)
+
+
+### Features
+
+* **cmp:** change blink copilot provider & enable ghost text ([3dc8c98](https://github.com/ecosse3/nvim/commit/3dc8c988ce0ab1e8429b7c4aed83d0c3cf2b367b))
+* **keymappings:** adjust font size keymap ([dc7a3b0](https://github.com/ecosse3/nvim/commit/dc7a3b0afec92aa7f30e9f8cc7ea76d8a084580c))
+* **options:** update vert fill char ([82f071f](https://github.com/ecosse3/nvim/commit/82f071fd04bc665a454c1532cf151547d18f5020))
+* **picker:** replace telescope.nvim with Snacks Picker ([74c9866](https://github.com/ecosse3/nvim/commit/74c9866759dd840fcf622ac9adf2333de536f138))
+* **plugins:** add treesitter context indent plugin ([c23fd2b](https://github.com/ecosse3/nvim/commit/c23fd2be90358e78ea4b04ffbf4fd7d22da99401))
+* **plugins:** enable Snacks Bigfile ([46a07f6](https://github.com/ecosse3/nvim/commit/46a07f66cd7b9a1b623ecae3f7e40c67eabdbe0d))
+* **plugins:** enable Snacks Statuscolumn ([a2c293a](https://github.com/ecosse3/nvim/commit/a2c293a7df4bdd0b78b28bdefccbbbfa02369d2c))
+* **plugins:** replace dressing.nvim with Snacks Input ([0a4c46e](https://github.com/ecosse3/nvim/commit/0a4c46e86c8002a169ddecf83ea8079cc7efd060))
+* **plugins:** replace mini.bufremove with Snacks BufDelete ([052b468](https://github.com/ecosse3/nvim/commit/052b4685ce9ce84df71bba44ed6cbcddae5d6ea3))
+* **plugins:** replace notify plugin with Snacks Notifier ([dffe40a](https://github.com/ecosse3/nvim/commit/dffe40a3f6e861134d085512ebf28804e1d1d617))
+* **plugins:** replace Nvim Tree with Snacks Explorer & adjust color scheme ([686b596](https://github.com/ecosse3/nvim/commit/686b5967cec615a17fa53949e00ef78c0bd29118))
+
+
+### Bug Fixes
+
+* **formatting:** typo in prettierd formatter ([35d89b7](https://github.com/ecosse3/nvim/commit/35d89b7bc8ea8456d089960051570eddbe9b3bac)), closes [#186](https://github.com/ecosse3/nvim/issues/186)
+
+### [4.1.1](https://github.com/ecosse3/nvim/compare/v4.1.0...v4.1.1) (2025-01-15)
+
+
+### Bug Fixes
+
+* **lsp:** properly initialize typescript-tools ([ec14639](https://github.com/ecosse3/nvim/commit/ec14639b92d36d6655ee443395c051257b95b4ec))
+
+## [4.1.0](https://github.com/ecosse3/nvim/compare/v4.0.0...v4.1.0) (2025-01-15)
+
+
+### Features
+
+> [!IMPORTANT]
+> Big changes:
+
+* **plugins:** replace nvim-cmp with blink.cmp ([01edcd0](https://github.com/ecosse3/nvim/commit/01edcd0784fbbed868a3ba9efbfde244670cbcec))
+* **plugins:** add codecompanion.lua AI plugin ([47e7efe](https://github.com/ecosse3/nvim/commit/47e7efe689121e912f35923da95aa444213dbd39))
+* **lsp:** migrate to typescript-tools from native LSP ts_ls ([eb55f0e](https://github.com/ecosse3/nvim/commit/eb55f0e2f18506e982f0c9acfe573ff66da94dc7))
+
+* add new icons for breakpoints and stopped states ([a94aa97](https://github.com/ecosse3/nvim/commit/a94aa97b748a09e799335bd1df78b77c6d2c832b))
+* **colorscheme:** add custom styling for the Pmenu component ([e0cd9c5](https://github.com/ecosse3/nvim/commit/e0cd9c551f77ed1561459365a6b02d81cea1136d))
+* **debugging:** add Next.js debug configuration for server-side debugging & monorepo support ([885db0f](https://github.com/ecosse3/nvim/commit/885db0fe00b193bd75df58a3fc3ce5ea852c780b))
+* enhance markdown file type support in render markdown plugin ([e0a3598](https://github.com/ecosse3/nvim/commit/e0a359870ab3faab84cba89297d5f059c41c62c1))
+* **git:** change backgrounds of incoming Git Conflict styles ([c818a35](https://github.com/ecosse3/nvim/commit/c818a35f2dd119f40910b9ac4007800bc1bc4d2e))
+* **lsp:** enable inlay hints for Lua ([035e9a4](https://github.com/ecosse3/nvim/commit/035e9a42eea018e21dccd995ecf7bcbcfc526a3c))
+* **lsp:** speed up ([36dfeab](https://github.com/ecosse3/nvim/commit/36dfeab3f5c010641a62a701f5637236cba7449c))
+* **plugins:** add Avante AI plugin (disabled by default) ([5cef9f0](https://github.com/ecosse3/nvim/commit/5cef9f0787221d64ca259521886dde20557d7883))
+* **plugins:** add harpoon plugin ([65b788d](https://github.com/ecosse3/nvim/commit/65b788dc1ee06927c5faafc651c2e7e74d01c975))
+* **plugins:** add nvim-sops plugin ([4c08c2e](https://github.com/ecosse3/nvim/commit/4c08c2ed441d529262f10cb90be294bf1431da62))
+* **plugins:** add xml formatting support ([c075617](https://github.com/ecosse3/nvim/commit/c075617550b6468c47cdf7950c8ffc5d97c4cfeb))
+* **plugins:** enable codecompanion by default and add it to EcoVim configuration switches ([a7b7080](https://github.com/ecosse3/nvim/commit/a7b7080b89295bc51e402625c139252f1f86be44))
+* **plugins:** enable lazy loading for neotest plugin ([017131c](https://github.com/ecosse3/nvim/commit/017131c7a85fc164555b2e33b86e8eeded4c9b37))
+* **plugins:** implement sorting options for telescope buffer search & add buffer deletion shortcut ([b17b682](https://github.com/ecosse3/nvim/commit/b17b682bb990aa578e4c68412cbe07106f74de62))
+* **plugins:** introduce snacks plugin with lazygit integration ([4670872](https://github.com/ecosse3/nvim/commit/46708726b0677b181acb002aa9c18102d4f4135c))
+* **plugins:** lazy load neotest only for specific test filetypes ([82b5c27](https://github.com/ecosse3/nvim/commit/82b5c27a11f933a5b5289272faf8f32e2f7e9716))
+* **plugins:** remove old zen mode plugin and use Zen snacks with zoom support ([7a1b289](https://github.com/ecosse3/nvim/commit/7a1b289530db27acb5d3edeeee36f527b94d1642))
+* **plugins:** rename bqf-init.lua to bqf.lua for clarity & add fzf-lua as dependency ([e292399](https://github.com/ecosse3/nvim/commit/e292399777531d660b585def526db52a78d2d607))
+* **plugins:** update layout configuration in telescope to vertical for better preview handling ([2831c5e](https://github.com/ecosse3/nvim/commit/2831c5e024dd3ed1d7f9ec257b76179c66e15ba4))
+
+
+### Bug Fixes
+
+* **dap:** fix javascript/typescript debugging without dap-vscode-js ([5c1e7e5](https://github.com/ecosse3/nvim/commit/5c1e7e53366db343b7d1519d67210e9d28aace1e))
+* **plugins:** configuration of multicursors ([c624197](https://github.com/ecosse3/nvim/commit/c6241972b36068f995bacdfda6f4240c8b1779b3))
+* **plugins:** working autopairs with blink.cmp ([e2db8ae](https://github.com/ecosse3/nvim/commit/e2db8ae87203ea4135b6b709e20c292d05088eea))
+* **plugins:** working blink autocompletion ([fff56d0](https://github.com/ecosse3/nvim/commit/fff56d03ac98d6e1bf46c3b7e4bad25e4002019e))
+
+
+### Refactors
+
+* change git_files to find_files for improved functionality in Ecovim Dotfiles picker ([342f4eb](https://github.com/ecosse3/nvim/commit/342f4ebcd6b973b8b3f00b561cee47adb39bcc66))
+* **keymappings:** consolidate dap keymaps ([68d12a2](https://github.com/ecosse3/nvim/commit/68d12a2236099354b04f096962cb7eee434528bd))
+* reorganize LSP configuration loading ([0c3ba7f](https://github.com/ecosse3/nvim/commit/0c3ba7f3cf17a014e1a274855aa9b7779683b2b1))
+* streamline project key bindings ([0135eab](https://github.com/ecosse3/nvim/commit/0135eab40cd02d8fe5c33aa161ac17ec252c45c2))
+* update quickfix key mappings to use <Leader> prefix ([a0ddf84](https://github.com/ecosse3/nvim/commit/a0ddf84a7f7bb5191067658bc9ddafa4d1a9701a))
+
 ## [4.0.0](https://github.com/ecosse3/nvim/compare/v3.9.0...v4.0.0) (2024-09-06)
 
 

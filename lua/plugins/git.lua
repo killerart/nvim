@@ -134,6 +134,10 @@ return {
           current = "DiffAdd",
         },
       })
+
+      vim.api.nvim_set_hl(0, "GitConflictIncoming", { bg = "#293919" })
+      vim.api.nvim_set_hl(0, "GitConflictIncomingLabel", { bold = true, bg = "#698F3F" })
+
     end,
     keys = {
       { "<Leader>gcb", '<cmd>GitConflictChooseBoth<CR>',   desc = 'choose both' },
@@ -161,22 +165,6 @@ return {
       { "<Leader>gww", desc = "worktrees" },
       { "<Leader>gwc", desc = "create worktree" }
     }
-  },
-
-  {
-    "kdheepak/lazygit.nvim",
-    cmd = {
-      "LazyGit",
-      "LazyGitCurrentFile",
-      "LazyGitFilterCurrentFile",
-      "LazyGitFilter",
-    },
-    keys = {
-      { "<Leader>gg", "<cmd>LazyGit<CR>", desc = "lazygit" },
-    },
-    config = function()
-      vim.g.lazygit_floating_window_scaling_factor = 0.95
-    end,
   },
 
   {

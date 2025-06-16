@@ -9,17 +9,11 @@ return {
   },
   {
     'windwp/nvim-autopairs',
+    enabled = true,
     event = "InsertEnter",
     config = function()
       local npairs = require('nvim-autopairs')
       npairs.setup()
-
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
 
       for _, i in ipairs(npairs.config.rules) do
         i.key_map = nil

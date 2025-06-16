@@ -33,7 +33,7 @@ keymap("n", "<Tab>", ":BufferLineCycleNext<CR>", silent)
 keymap("n", "gn", ":bn<CR>", silent)
 keymap("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", silent)
 keymap("n", "gp", ":bp<CR>", silent)
-keymap("n", "<S-q>", ":lua require('mini.bufremove').delete(0, false)<CR>", silent)
+keymap("n", "<S-q>", ":lua Snacks.bufdelete()<CR>", silent)
 
 -- Don't yank on delete char
 keymap("n", "x", '"_x', silent)
@@ -51,8 +51,8 @@ vim.cmd([[
 ]])
 
 -- Quickfix
-keymap("n", "<Space>,", ":cp<CR>", silent)
-keymap("n", "<Space>.", ":cn<CR>", silent)
+keymap("n", "<Leader>,", ":cp<CR>", silent)
+keymap("n", "<Leader>.", ":cn<CR>", silent)
 
 -- Toggle quicklist
 keymap("n", "<leader>q", "<cmd>lua require('utils').toggle_quicklist()<CR>", silent)
@@ -102,6 +102,9 @@ keymap("n", "K", function()
   end
 end)
 
+-- Adjust font size
+keymap("n", "<M-=>", function() require('utils').adjust_font_size(1) end, silent)
+keymap("n", "<M-->", function() require('utils').adjust_font_size(-1) end, silent)
 -- Comment Box
 keymap("n", "<leader>ac", "<cmd>lua require('comment-box').lbox()<CR>", silent)
 keymap("v", "<leader>ac", "<cmd>lua require('comment-box').lbox()<CR>", silent)

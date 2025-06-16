@@ -5,6 +5,23 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    dependencies = {
+      "theHamsta/nvim-dap-virtual-text",
+      "rcarriga/nvim-dap-ui",
+      {
+        "LiadOz/nvim-dap-repl-highlights",
+        config = true,
+        dependencies = {
+          "mfussenegger/nvim-dap",
+          "nvim-treesitter/nvim-treesitter",
+        },
+        build = function()
+          if not require("nvim-treesitter.parsers").has_parser("dap_repl") then
+            vim.cmd(":TSInstall dap_repl")
+          end
+        end,
+      },
+    },
     config = function()
       local present_dapui, dapui = pcall(require, "dapui")
       local present_dap, dap = pcall(require, "dap")
@@ -119,41 +136,11 @@ return {
       -- ╭──────────────────────────────────────────────────────────╮
       -- │ Icons                                                    │
       -- ╰──────────────────────────────────────────────────────────╯
-      vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
-      vim.fn.sign_define("DapStopped", { text = "⭐️", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapBreakpoint", { text = "🔵", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapBreakpointRejected", { text = "🔴", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapConditionalBreakpoint", { text = "🟡", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapStopped", { text = "🟢", texthl = "", linehl = "", numhl = "" })
 
-      -- ╭──────────────────────────────────────────────────────────╮
-      -- │ Keybindings                                              │
-      -- ╰──────────────────────────────────────────────────────────╯
-      keymap("n", "<Leader>da", "<CMD>lua require('dap').continue()<CR>", opts)
-      keymap("n", "<Leader>db", "<CMD>lua require('dap').toggle_breakpoint()<CR>", opts)
-      keymap("n", "<Leader>dd", "<CMD>lua require('dap').continue()<CR>", opts)
-      keymap("n", "<Leader>dh", "<CMD>lua require('dapui').eval()<CR>", opts)
-      keymap("n", "<Leader>di", "<CMD>lua require('dap').step_into()<CR>", opts)
-      keymap("n", "<Leader>do", "<CMD>lua require('dap').step_out()<CR>", opts)
-      keymap("n", "<Leader>dO", "<CMD>lua require('dap').step_over()<CR>", opts)
-      keymap("n", "<Leader>dt", "<CMD>lua require('dap').terminate()<CR>", opts)
-      keymap("n", "<Leader>du", "<CMD>lua require('dapui').open()<CR>", opts)
-      keymap("n", "<Leader>dc", "<CMD>lua require('dapui').close()<CR>", opts)
-
-      keymap("n", "<Leader>dw", "<CMD>lua require('dapui').float_element('watches', { enter = true })<CR>", opts)
-      keymap("n", "<Leader>ds", "<CMD>lua require('dapui').float_element('scopes', { enter = true })<CR>", opts)
-      keymap("n", "<Leader>dr", "<CMD>lua require('dapui').float_element('repl', { enter = true })<CR>", opts)
-
-      -- ╭──────────────────────────────────────────────────────────╮
-      -- │ Adapters                                                 │
-      -- ╰──────────────────────────────────────────────────────────╯
-
-      -- VSCODE JS (Node/Chrome/Terminal/Jest)
-      require("dap-vscode-js").setup({
-        debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
-        debugger_cmd = { "js-debug-adapter" },
-        adapters = { "chrome", "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
-      })
-
-      -- ╭──────────────────────────────────────────────────────────╮
-      -- │ Configurations                                           │
-      -- ╰──────────────────────────────────────────────────────────╯
       local exts = {
         "javascript",
         "typescript",
@@ -162,6 +149,44 @@ return {
         "vue",
         "svelte",
       }
+      -- ╭──────────────────────────────────────────────────────────╮
+      -- │ Adapters                                                 │
+      -- ╰──────────────────────────────────────────────────────────╯
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}" },
+        }
+      }
+
+      dap.adapters["pwa-chrome"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}" },
+        }
+      }
+      -- ╭──────────────────────────────────────────────────────────╮
+      -- │ Keybindings                                              │
+      -- ╰──────────────────────────────────────────────────────────╯
+      keymap("n", "<Leader>db", "<CMD>lua require('dap').toggle_breakpoint()<CR>", opts)
+      keymap("n", "<Leader>dc", "<CMD>lua require('dap').continue()<CR>", opts)
+      keymap("n", "<Leader>dd", "<CMD>lua require('dap').continue()<CR>", opts)
+      keymap("n", "<Leader>dh", "<CMD>lua require('dapui').eval()<CR>", opts)
+      keymap("n", "<Leader>di", "<CMD>lua require('dap').step_into()<CR>", opts)
+      keymap("n", "<Leader>do", "<CMD>lua require('dap').step_out()<CR>", opts)
+      keymap("n", "<Leader>dO", "<CMD>lua require('dap').step_over()<CR>", opts)
+      keymap("n", "<Leader>dt", "<CMD>lua require('dap').terminate()<CR>", opts)
+      -- keymap("n", "<Leader>dl", "<CMD>lua require('dap.ext.vscode').load_launchjs(nil, { node2 = {'javascript', 'typescript'} })<CR>", opts)
+
+      -- ╭──────────────────────────────────────────────────────────╮
+      -- │ Configurations                                           │
+      -- ╰──────────────────────────────────────────────────────────╯
 
       for i, ext in ipairs(exts) do
         dap.configurations[ext] = {
@@ -181,17 +206,28 @@ return {
                 end)
               end)
             end,
-            port = 9222,
-            webRoot = vim.fn.getcwd(),
+            webRoot = '${workspaceFolder}',
             protocol = 'inspector',
             sourceMaps = true,
             userDataDir = false,
             skipFiles = { "<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**" },
             resolveSourceMapLocations = {
+              "${webRoot}/*",
+              "${webRoot}/apps/**/**",
               "${workspaceFolder}/apps/**/**",
-              "${workspaceFolder}/**",
+              "${webRoot}/packages/**/**",
+              "${workspaceFolder}/packages/**/**",
+              "${workspaceFolder}/*",
               "!**/node_modules/**",
             }
+          },
+          {
+            name = 'Next.js: debug server-side (pwa-node)',
+            type = 'pwa-node',
+            request = 'attach',
+            port = 9231,
+            skipFiles = { '<node_internals>/**', 'node_modules/**' },
+            cwd = '${workspaceFolder}',
           },
           {
             type = "pwa-node",
@@ -201,7 +237,7 @@ return {
             args = { "${file}" },
             sourceMaps = true,
             protocol = "inspector",
-            runtimeExecutable = "npm",
+            runtimeExecutable = "pnpm",
             runtimeArgs = {
               "run-script", "dev"
             },
@@ -274,7 +310,16 @@ return {
               return vim.fn.input("Select port: ", 9222)
             end,
             webRoot = "${workspaceFolder}",
-            skipFiles = { "<node_internals>/**", "node_modules/**" },
+            skipFiles = { "<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**" },
+            resolveSourceMapLocations = {
+              "${webRoot}/*",
+              "${webRoot}/apps/**/**",
+              "${workspaceFolder}/apps/**/**",
+              "${webRoot}/packages/**/**",
+              "${workspaceFolder}/packages/**/**",
+              "${workspaceFolder}/*",
+              "!**/node_modules/**",
+            }
           },
           {
             type = "pwa-node",
@@ -288,33 +333,20 @@ return {
       end
     end,
     keys = {
-      "<Leader>da",
-      "<Leader>db",
-      "<Leader>dc",
-      "<Leader>dd",
-      "<Leader>dh",
-      "<Leader>di",
-      "<Leader>do",
-      "<Leader>dO",
-      "<Leader>dt",
-    },
-    dependencies = {
-      "theHamsta/nvim-dap-virtual-text",
-      "rcarriga/nvim-dap-ui",
-      "mxsdev/nvim-dap-vscode-js",
-      {
-        "LiadOz/nvim-dap-repl-highlights",
-        config = true,
-        dependencies = {
-          "mfussenegger/nvim-dap",
-          "nvim-treesitter/nvim-treesitter",
-        },
-        build = function()
-          if not require("nvim-treesitter.parsers").has_parser("dap_repl") then
-            vim.cmd(":TSInstall dap_repl")
-          end
-        end,
-      },
+      { "<Leader>da", "<CMD>lua require('dap').continue()<CR>",                                             desc = "Continue" },
+      { "<Leader>db", "<CMD>lua require('dap').toggle_breakpoint()<CR>",                                    desc = "Toggle Breakpoint" },
+      { "<Leader>dB", "<CMD>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", desc = "Conditional Breakpoint" },
+      { "<Leader>dd", "<CMD>lua require('dap').continue()<CR>",                                             desc = "Continue" },
+      { "<Leader>dh", "<CMD>lua require('dapui').eval()<CR>",                                               desc = "Evaluate" },
+      { "<Leader>di", "<CMD>lua require('dap').step_into()<CR>",                                            desc = "Step Into" },
+      { "<Leader>do", "<CMD>lua require('dap').step_out()<CR>",                                             desc = "Step Out" },
+      { "<Leader>dO", "<CMD>lua require('dap').step_over()<CR>",                                            desc = "Step Over" },
+      { "<Leader>dt", "<CMD>lua require('dap').terminate()<CR>",                                            desc = "Terminate" },
+      { "<Leader>du", "<CMD>lua require('dapui').open()<CR>",                                               desc = "Open UI" },
+      { "<Leader>dc", "<CMD>lua require('dapui').close()<CR>",                                              desc = "Close UI" },
+      { "<Leader>dw", "<CMD>lua require('dapui').float_element('watches', { enter = true })<CR>",           desc = "Watches" },
+      { "<Leader>ds", "<CMD>lua require('dapui').float_element('scopes', { enter = true })<CR>",            desc = "Scopes" },
+      { "<Leader>dr", "<CMD>lua require('dapui').float_element('repl', { enter = true })<CR>",              desc = "REPL" },
     },
   },
   floating = {

@@ -1,11 +1,16 @@
 return {
   {
-    "yioneko/nvim-vtsls",
-    event = { "BufReadPre", "BufNewFile" },
-    ft = { "typescript", "typescriptreact" },
+    "pmizio/typescript-tools.nvim",
+    event = "LspAttach",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "neovim/nvim-lspconfig",
+      {
+        "saghen/blink.cmp",
+        -- Ensure blink.cmp is loaded before typescript-tools
+        lazy = false,
+        priority = 1000,
+      }
     },
   },
 
@@ -66,7 +71,4 @@ return {
     "dmmulroy/ts-error-translator.nvim",
     config = true
   },
-
-  { "artemave/workspace-diagnostics.nvim" }
-
 }

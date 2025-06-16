@@ -19,17 +19,11 @@ EcoVim = {
   plugins = {
     -- Make sure to reload nvim & "Update Plugins" after change
     ai = {
-      chatgpt = {
-        enabled = false,
-      },
-      codeium = {
-        enabled = false,
+      codecompanion = {
+        enabled = true,
       },
       copilot = {
         enabled = true,
-      },
-      tabnine = {
-        enabled = false,
       },
     },
     completion = {
@@ -47,13 +41,6 @@ EcoVim = {
       -- Removing package.json from list in Monorepo Frontend Project can be helpful
       -- By that your live_grep will work related to whole project, not specific package
       patterns = { ".git", "package.json", "_darcs", ".bzr", ".svn", "Makefile" }, -- Default
-    },
-    -- <leader>z
-    zen = {
-      alacritty_enabled = false,
-      kitty_enabled = false,
-      wezterm_enabled = false,
-      enabled = true, -- sync after change
     },
   },
   -- Please keep it
