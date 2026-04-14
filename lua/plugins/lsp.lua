@@ -1,35 +1,123 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    lazy = false,
-    dependencies = {
-      "mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-    },
-    config = function()
-      require('config.lsp.setup')
-      require('config.lsp.config')
-      require('config.lsp.functions')
-    end
-  },
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			{
+				"mason-org/mason.nvim",
+				"mason-org/mason-lspconfig.nvim",
+			},
+			{ "b0o/schemastore.nvim", lazy = true },
+		},
+		config = function()
+			-- Load diagnostic configuration
+			require("config.lsp.config")
+			-- Load LSP functions
+			require("config.lsp.functions")
 
-  {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
-    keys = {
-      { "<leader>cm", "<cmd>Mason<CR>", desc = "Mason" },
-    },
-  },
+			-- Set up Mason
+			require("mason").setup({
+				ui = {
+					border = EcoVim.ui.float.border or "rounded",
+				},
+			})
 
-  {
-    "antosha417/nvim-lsp-file-operations",
-    event = "LspAttach",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-tree/nvim-tree.lua" },
-    },
-    config = function()
-      require("lsp-file-operations").setup()
-    end
-  },
+			-- Determine TypeScript server based on user preference
+			local ts_server = EcoVim.lsp.typescript_server or "tsgo"
+			local ts_exclude = ts_server == "tsgo" and "ts_ls" or "tsgo"
+
+			-- Set up Mason-lspconfig
+			local default_servers = {
+				"bashls",
+				"biome",
+				"clangd",
+				"cssls",
+				"denols",
+				"dockerls",
+				"eslint",
+				"graphql",
+				"html",
+				"jsonls",
+				"lua_ls",
+				"marksman",
+				"oxlint",
+				"prismals",
+				"pyright",
+				"sqlls",
+				"tailwindcss",
+				"terraformls",
+				"tflint",
+				ts_server,
+				"vue_ls",
+				"yamlls",
+			}
+
+			-- Merge default servers with user custom servers
+			local ensure_installed = vim.list_extend(default_servers, EcoVim.lsp.ensure_installed or {})
+
+			-- Build exclude list: always exclude copilot + the unused TypeScript server
+			local exclude = vim.list_extend({ ts_exclude, "copilot" }, EcoVim.lsp.exclude or {})
+
+			require("mason-lspconfig").setup({
+				ensure_installed = ensure_installed,
+				-- Automatically enable installed servers via vim.lsp.enable
+				automatic_enable = {
+					exclude = exclude,
+				},
+			})
+
+			-- Load LSP configurations using vim.lsp.config API
+			require("config.lsp")
+
+			-- Load user custom LSP server configs
+			for name, config in pairs(EcoVim.lsp.servers or {}) do
+				vim.lsp.config(name, config)
+				vim.lsp.enable(name)
+			end
+		end,
+		keys = {
+			-- Mason
+			{ "<leader>cm", "<cmd>Mason<CR>", desc = "Mason LSP manager" },
+			{ "<leader>cli", "<cmd>LspInfo<CR>", desc = "LSP Info" },
+			{ "<leader>clr", "<cmd>LspRestart<CR>", desc = "LSP Restart" },
+			{ "<leader>cls", "<cmd>LspStop<CR>", desc = "LSP Stop" },
+			{ "<leader>clS", "<cmd>LspStart<CR>", desc = "LSP Start" },
+
+			-- Navigation
+			{ "gd", vim.lsp.buf.definition, desc = "Goto Definition" },
+			{ "gr", function() vim.lsp.buf.references({ includeDeclaration = false }) end, desc = "Goto References" },
+			{ "gy", vim.lsp.buf.type_definition, desc = "Goto Type Definition" },
+			{ "gi", vim.lsp.buf.implementation, desc = "Goto Implementation" },
+
+			-- Info
+			{ "K", function()
+				local winid = require("ufo").peekFoldedLinesUnderCursor()
+				if not winid then
+					vim.lsp.buf.hover()
+				end
+			end, desc = "Hover / Peek Fold" },
+			{ "L", vim.lsp.buf.signature_help, desc = "Signature Help", mode = { "n" } },
+
+			-- Diagnostics
+			{ "gl", function() vim.diagnostic.open_float({ border = EcoVim.ui.float.border, max_width = 100 }) end, desc = "Line Diagnostics" },
+			{ "]g", function() vim.diagnostic.jump({ count = 1, float = { border = EcoVim.ui.float.border, max_width = 100 } }) end, desc = "Next Diagnostic" },
+			{ "[g", function() vim.diagnostic.jump({ count = -1, float = { border = EcoVim.ui.float.border, max_width = 100 } }) end, desc = "Prev Diagnostic" },
+
+			-- Code actions
+			{ "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+			{ "<C-Space>", vim.lsp.buf.code_action, desc = "Code Action" },
+
+			-- Refactoring
+			-- <leader>cr (Rename Symbol) is handled by inc-rename.nvim
+			{ "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
+
+			-- Formatting
+			{ "<leader>cf", vim.lsp.buf.format, desc = "Format Document" },
+			{ "<leader>cf", vim.lsp.buf.format, desc = "Format Range", mode = "v" },
+
+			-- Symbols
+			{ "<leader>ss", vim.lsp.buf.document_symbol, desc = "Document Symbols" },
+			{ "<leader>sS", vim.lsp.buf.workspace_symbol, desc = "Workspace Symbols" },
+		},
+	},
 }

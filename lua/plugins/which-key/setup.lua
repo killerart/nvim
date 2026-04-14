@@ -52,6 +52,10 @@ wk.add({
   { "<leader>7",        hidden = true },
   { "<leader>8",        hidden = true },
   { "<leader>9",        hidden = true },
+  { "<leader><left>",        hidden = true },
+  { "<leader><right>",        hidden = true },
+  { "<leader><up>",        hidden = true },
+  { "<leader><down>",        hidden = true },
 })
 
 -- single
@@ -61,6 +65,20 @@ wk.add({
   { "<leader>v", "<C-W>v",                      desc = "split right" },
   { "<leader>V", "<C-W>s",                      desc = "split below" },
   { "<leader>q", desc = "quicklist" },
+  { "<leader>,", desc = "quickfix prev" },
+  { "<leader>.", desc = "quickfix next" },
+  { "<leader>h", desc = "harpoon menu" },
+  { "<leader>H", desc = "harpoon add file" },
+  { "<leader>[", desc = "harpoon prev" },
+  { "<leader>]", desc = "harpoon next" },
+  { "<leader>m", desc = "add cursor below" },
+  { "<leader>f", desc = "format file", mode = { "n", "v" } },
+  { "<leader>l", desc = "lint file" },
+  { "<leader>y", desc = "yazi file manager", mode = { "n", "v" } },
+  { "<leader>D", desc = "database (sqlit)" },
+  { "<leader>x", desc = "delete cursor" },
+  { "<leader>A", desc = "align cursors" },
+  { "<leader>gv", desc = "restore cursors" },
 })
 
 wk.add({
@@ -88,10 +106,10 @@ wk.add({
 wk.add({
   { "<leader>c",  group = "LSP",                                      mode = { "n", "v" } },
   { "<leader>ca", desc = "code action",                               mode = { "n", "v" } },
+  { "<leader>cA", desc = "code action (capability)",                   mode = { "n", "v" } },
   { "<leader>cf", desc = "format",                                    mode = { "n", "v" } },
-  { "<leader>cl", desc = "line diagnostics" },
   { "<leader>cr", desc = "rename" },
-  { "<leader>cR", desc = "structural replace" },
+  { "<leader>cR", desc = "rename file" },
   { "<leader>ct", '<cmd>LspToggleAutoFormat<CR>',                     desc = "toggle format on save" },
 })
 
@@ -112,35 +130,27 @@ wk.add({
   { "<leader>gl",  group = "Log" },
   { "<leader>gm",  desc = 'blame line' },
   { "<leader>gp",  "<cmd>Octo pr list<CR>",           desc = 'Pull Requests List' },
-  { "<leader>gw",  group = "Worktree" },
-  { "<leader>gww", desc = 'worktrees' },
-  { "<leader>gwc", desc = 'create worktree' },
 })
 
 wk.add({
   { "<leader>p",  group = "Project" },
   { "<leader>pf", desc = "file" },
   { "<leader>pw", desc = "word" },
-  { "<leader>pr", desc = "refactor",                                                                                                                                                                                             mode = { "v", "n" } },
-  { "<leader>pt", "<cmd>TodoTrouble<CR>",                                                                                                                                                                                        desc = "todo" },
-})
-
-wk.add({
-  { "<leader>r", group = "Refactor", mode = { "n", "v" } },
 })
 
 wk.add({
   { "<leader>s",  group = "Search" },
+  { "<leader>s", "<cmd>'<,'>sort<CR>", desc = "sort", mode = { "v" } }
 })
 
 wk.add({
   { "<leader>t",  group = "Table Mode",  mode = { "n", "v" } },
-  { "<leader>tm", desc = { "toggle" } },
-  { "<leader>tt", desc = { "tableize" }, mode = { "n", "v" } },
+  { "<leader>tm", desc = "toggle" },
+  { "<leader>tt", desc = "tableize", mode = { "n", "v" } },
 })
 
 wk.add({
-  { "<leader>s", "<cmd>'<,'>sort<CR>", desc = "sort", mode = { "v" } }
+  { "<leader>o",  group = "Opencode" },
 })
 
 local function attach_markdown(bufnr)
@@ -155,13 +165,19 @@ local function attach_typescript(bufnr)
     { buffer = bufnr },
     { "<leader>c",   group = "LSP", },
     { "<leader>ce",  "<cmd>TSC<CR>",                      desc = "workspace errors (TSC)" },
-    { "<leader>cF",  "<cmd>TSToolsFixAll<CR>",            desc = "fix all" },
-    { "<leader>ci",  "<cmd>TSToolsAddMissingImports<CR>", desc = "import all" },
-    { "<leader>co",  "<cmd>TSToolsOrganizeImports<CR>",   desc = "organize imports" },
-    { "<leader>cs",  "<cmd>TSToolsSortImports<CR>",       desc = "sort imports" },
-    { "<leader>cu",  "<cmd>TSToolsRemoveUnused<CR>",      desc = "remove unused" },
-    { "<leader>cR",  "<cmd>TSToolsRenameFile<CR>",        desc = "rename file" },
-    { "<leader>cF",  "<cmd>TSToolsFileReferences<CR>",    desc = "file references" },
+    { "<leader>co",  function()
+      vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" }, diagnostics = vim.diagnostic.get(0) }, apply = true })
+    end, desc = "organize imports" },
+    { "<leader>ci",  function()
+      vim.lsp.buf.code_action({ context = { only = { "source.addMissingImports" }, diagnostics = vim.diagnostic.get(0) }, apply = true })
+    end, desc = "import all" },
+    { "<leader>cu",  function()
+      vim.lsp.buf.code_action({ context = { only = { "source.removeUnused" }, diagnostics = vim.diagnostic.get(0) }, apply = true })
+    end, desc = "remove unused" },
+    { "<leader>cF",  function()
+      vim.lsp.buf.code_action({ context = { only = { "source.fixAll" }, diagnostics = vim.diagnostic.get(0) }, apply = true })
+    end, desc = "fix all" },
+    { "<leader>cR",  function() Snacks.rename.rename_file() end, desc = "rename file" },
   })
 end
 
@@ -202,19 +218,10 @@ local function attach_spectre(bufnr)
   })
 end
 
-local function attach_nvim_tree(bufnr)
-  wk.add({
-    { buffer = bufnr },
-    { "<leader>=",   "<cmd>NvimTreeResize +5<CR>", desc = "resize +5" },
-    { "<leader>-",   "<cmd>NvimTreeResize -5<CR>", desc = "resize +5" },
-  })
-end
-
 return {
   attach_markdown = attach_markdown,
   attach_typescript = attach_typescript,
   attach_npm = attach_npm,
   attach_jest = attach_jest,
   attach_spectre = attach_spectre,
-  attach_nvim_tree = attach_nvim_tree,
 }

@@ -2,10 +2,12 @@ return {
   { "dhruvasagar/vim-table-mode", ft = { "markdown" } },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "Avante", "copilot-chat", "codecompanion" },
+    commit = "a2c2493c21cf61e5554ee8bc83da75bd695921da",
+    ft = { "markdown", "Avante", "copilot-chat", "codecompanion", "opencode_output" },
     opts = {
       render_modes = true,
-      file_types = { "markdown", "Avante", "copilot-chat", "codecompanion" },
+      file_types = { "markdown", "Avante", "copilot-chat", "codecompanion", "opencode_output" },
+      anti_conceal = { enabled = false },
       sign = {
         enabled = false,
       },

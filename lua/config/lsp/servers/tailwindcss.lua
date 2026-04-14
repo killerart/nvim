@@ -1,60 +1,56 @@
-local M = {}
+vim.lsp.config.tailwindcss = {
+	on_attach = function(client, bufnr)
+		-- Ensure colorProvider is supported for inline color swatches
+		if client.server_capabilities then
+			client.server_capabilities.colorProvider = true
+		end
+	end,
 
--- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local capabilities = require('blink.cmp').get_lsp_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.colorProvider = { dynamicRegistration = false }
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
+	filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" },
+
+	init_options = {
+		userLanguages = {
+			eelixir = "html-eex",
+			eruby = "erb",
+		},
+	},
+
+	settings = {
+		tailwindCSS = {
+			classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+			includeLanguages = {
+				typescript = "javascript",
+				typescriptreact = "javascript",
+			},
+			lint = {
+				cssConflict = "warning",
+				invalidApply = "error",
+				invalidConfigPath = "error",
+				invalidScreen = "error",
+				invalidTailwindDirective = "error",
+				invalidVariant = "error",
+			},
+			experimental = {
+				classRegex = {
+					"tw`([^`]*)",
+					'tw="([^"]*)',
+					'tw={"([^"}]*)',
+					"tw\\.\\w+`([^`]*)",
+					"tw\\(.*?\\)`([^`]*)",
+					{ "clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+					{ "classnames\\(([^)]*)\\)", "'([^']*)'" },
+					{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+					{ "cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]" },
+					{ "twMerge\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]" },
+					{ "twJoin\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]" },
+				},
+			},
+			validate = true,
+		},
+	},
+
+	flags = {
+		debounce_text_changes = 500,
+		exit_timeout = 1000,
+	},
 }
-
--- Settings
-
-local on_attach = function(client, bufnr)
-end
-
-local filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
-
-local init_options = {
-  userLanguages = {
-    eelixir = "html-eex",
-    eruby = "erb",
-  },
-}
-
-local settings = {
-  tailwindCSS = {
-    lint = {
-      cssConflict = "warning",
-      invalidApply = "error",
-      invalidConfigPath = "error",
-      invalidScreen = "error",
-      invalidTailwindDirective = "error",
-      invalidVariant = "error",
-      recommendedVariantOrder = "warning",
-    },
-    experimental = {
-      classRegex = {
-        "tw`([^`]*)",
-        'tw="([^"]*)',
-        'tw={"([^"}]*)',
-        "tw\\.\\w+`([^`]*)",
-        "tw\\(.*?\\)`([^`]*)",
-        { "clsx\\(([^)]*)\\)",       "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-        { "classnames\\(([^)]*)\\)", "'([^']*)'" },
-        { "cva\\(([^)]*)\\)",        "[\"'`]([^\"'`]*).*?[\"'`]" },
-        { "cn\\(([^)]*)\\)",         "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-      },
-    },
-    validate = true,
-  },
-}
-
-M.on_attach = on_attach
-M.filetypes = filetypes
-M.capabilities = capabilities
-M.settings = settings
-M.init_options = init_options
-
-return M
