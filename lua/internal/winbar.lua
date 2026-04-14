@@ -68,6 +68,7 @@ M.gps = function()
 end
 
 vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost" }, {
+  group = vim.api.nvim_create_augroup("EcoVimWinbar", { clear = true }),
   callback = function()
     local winbar_filetype_exclude = {
       "help",
@@ -75,18 +76,19 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost" }, {
       "dashboard",
       "packer",
       "neogitstatus",
-      "NvimTree",
       "Trouble",
       "alpha",
       "lir",
       "Outline",
       "spectre_panel",
-      "TelescopePrompt",
       "DressingInput",
       "DressingSelect",
       "neotest-summary",
-      "toggleterm",
       "octo",
+      "dapui_hover",
+      "snacks_layout_box",
+      "snacks_picker_list",
+      "snacks_picker_input",
     }
 
     if vim.api.nvim_win_get_config(0).relative ~= "" then

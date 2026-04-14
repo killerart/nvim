@@ -3,7 +3,11 @@ if not present then
   return
 end
 
-local c = require("tokyonight.colors").setup()
+local colors_ok, colors_mod = pcall(require, "tokyonight.colors")
+if not colors_ok then
+  return
+end
+local c = colors_mod.setup()
 
 -- ╭──────────────────────────────────────────────────────────╮
 -- │ Setup Colorscheme                                        │
@@ -87,7 +91,7 @@ local highlights = {
   EcovimHeader                  = { bold = true, fg = "#488DFF" },
   EcovimHeaderInfo              = { bold = true, fg = "#FFA630" },
   EcovimFooter                  = { bold = true, fg = "#FFA630" },
-  EcovimNvimTreeTitle           = { bold = true, fg = "#FFA630", bg = "#16161e" },
+  EcovimExplorerTitle            = { bold = true, fg = "#FFA630", bg = "#16161e" },
   -- Lines
   CursorLineNR                  = { link = "EcovimSecondary" },
   LineNr                        = { link = "Comment" },
@@ -101,8 +105,6 @@ local highlights = {
   LspInfoBorder                 = { link = "FloatBorder" },
   VertSplit                     = { bg = "NONE", fg = "#16161E" },
   WinSeparator                  = { bg = "NONE", fg = "#16161E" },
-  -- Tree
-  NvimTreeFolderIcon            = { bg = "None", fg = "None" },
   -- Misc
   GitSignsCurrentLineBlame      = { link = "Comment" },
   -- StatusLine                    = { bg = "None" },
@@ -123,22 +125,23 @@ local highlights = {
   -- BufferLineOffsetSeparator     = { bg = "#13141c", fg = "#13141c" },
   -- BufferLineSeparator           = { bg = "#13141c", fg = "#13141c" },
   -- Completion Menu Colors
-  CmpItemAbbr                   = { fg = c.dark3, bg = "NONE" },
-  CmpItemKindClass              = { fg = c.orange },
-  CmpItemKindConstructor        = { fg = c.purple },
-  CmpItemKindFolder             = { fg = c.blue2 },
-  CmpItemKindFunction           = { fg = c.blue },
-  CmpItemKindInterface          = { fg = c.teal, bg = "NONE" },
-  CmpItemKindKeyword            = { fg = c.magneta2 },
-  CmpItemKindMethod             = { fg = c.red },
-  CmpItemKindReference          = { fg = c.red1 },
-  CmpItemKindSnippet            = { fg = c.dark3 },
-  CmpItemKindVariable           = { fg = c.cyan, bg = "NONE" },
-  CmpItemKindText               = { fg = "LightGrey" },
-  CmpItemMenu                   = { fg = "#C586C0", bg = "NONE" },
-  CmpItemAbbrMatch              = { fg = "#569CD6", bg = "NONE" },
-  CmpItemAbbrMatchFuzzy         = { fg = "#569CD6", bg = "NONE" },
-  CmpBorderedWindow_FloatBorder = { fg = c.blue0 },
+  CmpItemAbbr                   = { fg   = c.dark3, bg   = "NONE" },
+  CmpItemKindClass              = { fg   = c.orange },
+  CmpItemKindConstructor        = { fg   = c.purple },
+  CmpItemKindFolder             = { fg   = c.blue2 },
+  CmpItemKindFunction           = { fg   = c.blue },
+  CmpItemKindInterface          = { fg   = c.teal, bg    = "NONE" },
+  CmpItemKindKeyword            = { fg   = c.magenta2 },
+  CmpItemKindMethod             = { fg   = c.red },
+  CmpItemKindReference          = { fg   = c.red1 },
+  CmpItemKindSnippet            = { fg   = c.dark3 },
+  CmpItemKindVariable           = { fg   = c.cyan, bg    = "NONE" },
+  CmpItemKindText               = { fg   = "LightGrey" },
+  CmpItemMenu                   = { fg   = "#C586C0", bg = "NONE" },
+  CmpItemAbbrMatch              = { fg   = "#569CD6", bg = "NONE" },
+  CmpItemAbbrMatchFuzzy         = { fg   = "#569CD6", bg = "NONE" },
+  CmpBorderedWindow_FloatBorder = { fg   = c.blue0 },
+  SnacksPickerMatch             = { link = "Boolean" },
 }
 
 
@@ -148,7 +151,6 @@ end
 
 local neovide_highlights = {
   -- VertSplit                   = { bg = "#16161E", fg = "#1A1B26" },
-  -- NvimTreeWinSeparator        = { bg = "#16161E", fg = "None" },
   -- WinSeparator                = { bg = "#16161E", fg = "#16161E" },
   -- BufferLineBuffer            = { bg = "#1A1B26", fg = "#1A1B26" },
   -- BufferLineTab               = { bg = "#1A1B26", fg = "#1A1B26" },

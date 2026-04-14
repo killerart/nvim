@@ -12,6 +12,7 @@ local options = {
   ignorecase     = true,                    --- Needed for smartcase
   laststatus     = 3,                       --- Have a global statusline at the bottom instead of one for each window
   mouse          = "a",                     --- Enable mouse
+  -- guifont set below for GUI clients
   number         = true,                    --- Shows current line number
   pumheight      = 10,                      --- Max num of items in completion menu
   relativenumber = true,                    --- Enables relative number
@@ -29,9 +30,10 @@ local options = {
   termguicolors  = true,                    --- Correct terminal colors
   timeoutlen     = 200,                     --- Faster completion (cannot be lower than 200 because then commenting doesn't work)
   undofile       = true,                    --- Sets undo to file
-  updatetime     = 100,                     --- Faster completion
+  updatetime     = 300,                     --- Faster CursorHold events (default 4000ms)
   viminfo        = "'1000",                 --- Increase the size of file history
   wildignore     = "*node_modules/**",      --- Don't search inside Node.js modules (works for gutentag)
+  winborder      = EcoVim.ui.float.border,
   wrap           = false,                   --- Display long lines as just one line
   writebackup    = false,                   --- Not needed
   -- Neovim defaults
@@ -51,7 +53,6 @@ local options = {
 local globals = {
   mapleader                   = ' ',        --- Map leader key to SPC
   maplocalleader              = ',',        --- Map local leader key to comma
-  speeddating_no_mappings     = 1,          --- Disable default mappings for speeddating
 }
 
 vim.opt.shortmess:append('c');
@@ -68,7 +69,7 @@ vim.opt.fillchars:append('vert:▕');
 vim.opt.fillchars:append('vertleft:▕');
 
 for k, v in pairs(options) do
-  vim.opt[k] = v
+  vim.o[k] = v
 end
 
 for k, v in pairs(globals) do
@@ -76,17 +77,19 @@ for k, v in pairs(globals) do
 end
 
 if vim.g.neovide then
-  vim.opt.title = true
-  vim.opt.guifont = EcoVim.ui.font
-  vim.g.neovide_scale_factor = 1.1
-  vim.g.neovide_refresh_rate = 144
-  vim.g.neovide_underline_stroke_scale = 0.5
-  vim.g.neovide_input_use_logo = 1
-  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
-  vim.g.neovide_window_blurred = true
+  vim.o.title = true
+  -- Font is set in ~/.config/neovide/config.toml
   vim.g.neovide_floating_blur_amount_x = 2.0
   vim.g.neovide_floating_blur_amount_y = 2.0
-  vim.g.neovide_transparency = 0.95
+  vim.g.neovide_floating_corner_radius = 0.0
+  vim.g.neovide_floating_shadow = false
+  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+  vim.g.neovide_input_use_logo = 1
+  vim.g.neovide_refresh_rate = 144
+  vim.g.neovide_scale_factor = 1.1
+  vim.g.neovide_opacity = 0.95
+  vim.g.neovide_underline_stroke_scale = 0.5
+  vim.g.neovide_window_blurred = true
 
   vim.keymap.set({ 'n', 'v' }, '<D-c>', '"+y')  -- Copy
   vim.keymap.set({ 'n', 'v' }, '<D-v>', '"*p')  -- Paste normal/visual mode

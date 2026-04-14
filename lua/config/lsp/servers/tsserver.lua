@@ -1,24 +1,13 @@
-local M = {}
-
+-- Configure the TypeScript server settings for use with typescript-tools
+-- Note: This file is NOT used with vim.lsp.config since typescript-tools replaces tsserver LSP
 local filter = require("config.lsp.utils.filter").filter
 local filterReactDTS = require("config.lsp.utils.filterReactDTS").filterReactDTS
 
 local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    silent = true,
-    border = EcoVim.ui.float.border or "rounded",
-  }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-      border = EcoVim.ui.float.border or "rounded",
-    }
-  ),
-  ["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics,
-    { virtual_text = true }
-  ),
+  -- Note: signatureHelp border is handled globally by vim.o.winborder
+  -- Note: virtual_text is disabled globally via vim.diagnostic.config in config.lua
   ["textDocument/definition"] = function(err, result, method, ...)
-    if vim.tbl_islist(result) and #result > 1 then
+    if vim.islist(result) and #result > 1 then
       local filtered_result = filter(result, filterReactDTS)
       return vim.lsp.handlers["textDocument/definition"](err, filtered_result, method, ...)
     end
@@ -92,16 +81,18 @@ local settings = {
   expose_as_code_action = "all",
   complete_function_calls = false,
   include_completions_with_insert_text = true,
-  code_lens = "implementations_only",
+  code_lens = "off",
 }
 
 local on_attach = function(client, bufnr)
-  vim.lsp.inlay_hint.enable(true, { bufnr })
-  require("plugins.which-key.setup").attach_typescript(bufnr)
+  if EcoVim.lsp.inlay_hints then
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end
+  -- Note: TypeScript keybindings are now attached via LspAttach autocmd
 end
 
-M.handlers = handlers
-M.settings = settings
-M.on_attach = on_attach
-
-return M
+return {
+  handlers = handlers,
+  settings = settings,
+  on_attach = on_attach
+}
